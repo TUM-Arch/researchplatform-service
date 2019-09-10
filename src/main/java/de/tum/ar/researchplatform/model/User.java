@@ -1,7 +1,7 @@
 package de.tum.ar.researchplatform.model;
 
-import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import org.springframework.data.annotation.Id;
+import org.springframework.data.mongodb.core.index.Indexed;
 import org.springframework.data.mongodb.core.mapping.Document;
 
 import java.util.ArrayList;
@@ -15,7 +15,6 @@ import java.util.List;
 /**
  * Class representing a User object
  */
-@JsonIgnoreProperties({"id"})
 @Document(collection = "user")
 public class User {
 
@@ -23,34 +22,53 @@ public class User {
     private String id; // Used by Mongo automatically
 
     private String name;
-    private String tumid;
 
-    private List<String> projectsReferences;
+    @Indexed(unique = true)
+    private String tumId;
+
+    private List<String> projectIds;
 
     private boolean isAdmin;
 
-    private Date createdAt; // Used by Mongo automatically
+    private Date createdAt;
 
     /**
      * No arg constructor
      */
     public User() {
+        this.createdAt = new Date();
         this.name = "";
-        this.tumid = "";
-        this.projectsReferences = new ArrayList<>();
+        this.tumId = "";
+        this.projectIds = new ArrayList<>();
         this.isAdmin = false;
     }
 
     /**
      * Constructor
      * @param name
-     * @param tumid
+     * @param tumId
      * @param isAdmin
      */
-    public User(String name, String tumid, boolean isAdmin) {
+    public User(String name, String tumId, boolean isAdmin) {
+        this.createdAt = new Date();
         this.name = name;
-        this.tumid = tumid;
-        this.projectsReferences = new ArrayList<>();
+        this.tumId = tumId;
+        this.projectIds = new ArrayList<>();
+        this.isAdmin = isAdmin;
+    }
+
+    /**
+     * Constructor
+     * @param name
+     * @param tumId
+     * @param projectIds
+     * @param isAdmin
+     */
+    public User(String name, String tumId, List<String> projectIds, boolean isAdmin) {
+        this.createdAt = new Date();
+        this.name = name;
+        this.tumId = tumId;
+        this.projectIds = projectIds;
         this.isAdmin = isAdmin;
     }
 
@@ -82,32 +100,32 @@ public class User {
      * Get TUM ID
      * @return TUM ID
      */
-    public String getTumid() {
-        return tumid;
+    public String getTumId() {
+        return tumId;
     }
 
     /**
      * Set TUM ID
-     * @param tumid
+     * @param tumId
      */
-    public void setTumid(String tumid) {
-        this.tumid = tumid;
+    public void setTumId(String tumId) {
+        this.tumId = tumId;
     }
 
     /**
      * Get list of Project references
      * @return list of references
      */
-    public List<String> getProjectsReferences() {
-        return projectsReferences;
+    public List<String> getProjectIds() {
+        return projectIds;
     }
 
     /**
      * Set list of Project references
-     * @param projectsReferences
+     * @param projectIds
      */
-    public void setProjectsReferences(List<String> projectsReferences) {
-        this.projectsReferences = projectsReferences;
+    public void setProjectIds(List<String> projectIds) {
+        this.projectIds = projectIds;
     }
 
     /**
@@ -126,14 +144,23 @@ public class User {
         isAdmin = admin;
     }
 
+    /**
+     * Get date of object creation
+     * @return date
+     */
+    public Date getCreatedAt() {
+        return createdAt;
+    }
+
     @Override
     public String toString() {
         return "User{" +
                 "id='" + id + '\'' +
                 ", name='" + name + '\'' +
-                ", tumid='" + tumid + '\'' +
-                ", projectsReferences=" + projectsReferences +
+                ", tumId='" + tumId + '\'' +
+                ", projectIds=" + projectIds +
                 ", isAdmin=" + isAdmin +
+                ", createdAt=" + createdAt +
                 '}';
     }
 }

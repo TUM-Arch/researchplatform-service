@@ -29,11 +29,6 @@ public class UserServiceImpl implements UserService{
     }
 
     @Override
-    public User findByTumid(String tumid) {
-        return userRepository.findByTumid(tumid);
-    }
-
-    @Override
     public User findByName(String name) {
         return userRepository.findByName(name);
     }
@@ -68,5 +63,10 @@ public class UserServiceImpl implements UserService{
     public void deleteAll() {
         userRepository.deleteAll();
         logger.info("Deleted All Users");
+    }
+
+    @Override
+    public User findByTumId(String tumId) {
+        return userRepository.findByTumId(tumId);
     }
 }

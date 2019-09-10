@@ -1,7 +1,6 @@
 package de.tum.ar.researchplatform.service;
 
 import de.tum.ar.researchplatform.model.User;
-import org.springframework.stereotype.Service;
 
 /**
  * Created by karthik on 9/9/2019
@@ -20,13 +19,6 @@ public interface UserService {
      * @return User object found
      */
     User findById(String id);
-
-    /**
-     * Find User object by TUM ID
-     * @param tumid
-     * @return User object found
-     */
-    User findByTumid(String tumid);
 
     /**
      * Find User object by name
@@ -57,7 +49,7 @@ public interface UserService {
     /**
      * Check if User object exists by id
      * @param id
-     * @return
+     * @return true if it exists
      */
     boolean existsById(String id);
 
@@ -65,4 +57,11 @@ public interface UserService {
      * Delete all User objects
      */
     void deleteAll();
+
+    /**
+     * Find User object by TUM ID
+     * @param tumId
+     * @return User object found
+     */
+    User findByTumId(String tumId);
 }

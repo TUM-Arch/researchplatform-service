@@ -16,10 +16,10 @@ public interface UserRepository extends MongoRepository<User,String> {
 
     /**
      * Find User object by TUM ID
-     * @param tumid
+     * @param tumId
      * @return User object
      */
-    public User findByTumid(String tumid);
+    public User findByTumId(String tumId);
 
     /**
      * Find User object by name
