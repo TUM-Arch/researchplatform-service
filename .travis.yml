@@ -1,0 +1,5 @@
+language: java
+jdk: openjdk11
+script:
+  - echo "Skipping Tests"
+  - ./mvnw clean package -DskipTests=true
