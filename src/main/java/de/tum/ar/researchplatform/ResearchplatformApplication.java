@@ -1,6 +1,10 @@
 package de.tum.ar.researchplatform;
 
+import de.tum.ar.researchplatform.model.Form;
+import de.tum.ar.researchplatform.model.Project;
 import de.tum.ar.researchplatform.model.User;
+import de.tum.ar.researchplatform.service.FormServiceImpl;
+import de.tum.ar.researchplatform.service.ProjectServiceImpl;
 import de.tum.ar.researchplatform.service.UserServiceImpl;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -14,6 +18,10 @@ public class ResearchplatformApplication {
 
     @Autowired
     private UserServiceImpl userService;
+    @Autowired
+    private FormServiceImpl formService;
+    @Autowired
+    private ProjectServiceImpl projectService;
 
     private static final Logger logger = LoggerFactory.getLogger(ResearchplatformApplication.class);
 
@@ -29,26 +37,29 @@ public class ResearchplatformApplication {
 
         //Services
         UserServiceImpl userService = context.getBean(UserServiceImpl.class);
+        FormServiceImpl formService = context.getBean(FormServiceImpl.class);
+        ProjectServiceImpl projectService = context.getBean(ProjectServiceImpl.class);
 
         //Delete All
         userService.deleteAll();
+        formService.deleteAll();
+        projectService.deleteAll();
 
         //Create and save
         User user = new User("name", "tumid", true);
         userService.saveOrUpdate(user);
 
-        //Others
-        user = userService.findByName("name");
-        logger.info(user.toString());
+        Form form = new Form();
+        formService.saveOrUpdate(form);
 
-        Iterable<User> userIterable = userService.listAll();
-        for (User userInList: userIterable) {
-            logger.info(userInList.toString());
-        }
+        Project project = new Project();
+        projectService.saveOrUpdate(project);
 
-        userService.delete(user);
+        //CleanUp
+        userService.deleteAll();
+        formService.deleteAll();
+        projectService.deleteAll();
 
         context.close();
     }
-
 }
