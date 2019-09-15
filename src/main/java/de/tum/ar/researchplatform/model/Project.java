@@ -25,8 +25,6 @@ public class Project {
 
     private Constants.ProjectStatus status;
 
-    private boolean isPrivate;
-
     private Date createdAt;
 
     /**
@@ -37,7 +35,6 @@ public class Project {
         this.formId = "";
         this.userId = "";
         this.status = Constants.ProjectStatus.NOTSUBMITTED;
-        this.isPrivate = false;
     }
 
     /**
@@ -45,14 +42,12 @@ public class Project {
      * @param formId
      * @param userId
      * @param status
-     * @param isPrivate
      */
-    public Project(String formId, String userId, Constants.ProjectStatus status, boolean isPrivate) {
+    public Project(String formId, String userId, Constants.ProjectStatus status) {
         this.createdAt = new Date();
         this.formId = formId;
         this.userId = userId;
         this.status = status;
-        this.isPrivate = isPrivate;
     }
 
     /**
@@ -112,22 +107,6 @@ public class Project {
     }
 
     /**
-     * Getter for if project is private
-     * @return true if project private
-     */
-    public boolean isPrivate() {
-        return isPrivate;
-    }
-
-    /**
-     * Set project as private
-     * @param aPrivate
-     */
-    public void setPrivate(boolean aPrivate) {
-        isPrivate = aPrivate;
-    }
-
-    /**
      * Get date of object creation
      * @return date
      */
@@ -142,7 +121,6 @@ public class Project {
                 ", formId='" + formId + '\'' +
                 ", userId='" + userId + '\'' +
                 ", status=" + status +
-                ", isPrivate=" + isPrivate +
                 ", createdAt=" + createdAt +
                 '}';
     }
