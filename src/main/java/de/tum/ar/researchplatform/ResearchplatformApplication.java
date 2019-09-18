@@ -46,19 +46,24 @@ public class ResearchplatformApplication {
         projectService.deleteAll();
 
         //Create and save
-        User user = new User("name", "tumid", true);
-        userService.saveOrUpdate(user);
+        int i = 0;
+        while(i < 10000) {
 
-        Form form = new Form();
-        formService.saveOrUpdate(form);
+            User user = new User("name", "tumid" + i, true);
+            userService.saveOrUpdate(user);
 
-        Project project = new Project();
-        projectService.saveOrUpdate(project);
+            Form form = new Form();
+            formService.saveOrUpdate(form);
+
+            Project project = new Project();
+            projectService.saveOrUpdate(project);
+            i++;
+        }
 
         //CleanUp
-        userService.deleteAll();
+        /*userService.deleteAll();
         formService.deleteAll();
-        projectService.deleteAll();
+        projectService.deleteAll();*/
 
         context.close();
     }

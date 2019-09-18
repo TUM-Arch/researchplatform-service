@@ -14,6 +14,7 @@ import java.util.List;
  */
 public class UsersResponseObject {
 
+    private int numberOfUsers;
     private List<User> usersList;
 
     /**
@@ -21,6 +22,7 @@ public class UsersResponseObject {
      */
     public UsersResponseObject() {
         this.usersList = new ArrayList<>();
+        this.numberOfUsers = 0;
     }
 
     /**
@@ -40,10 +42,19 @@ public class UsersResponseObject {
     }
 
     /**
+     * Get number of user objects
+     * @return number of users
+     */
+    public int getNumberOfUsers() {
+        return numberOfUsers;
+    }
+
+    /**
      * Add single User object to Users list
      * @param user
      */
     public void addUser(User user) {
         this.usersList.add(user);
+        this.numberOfUsers ++;
     }
 }

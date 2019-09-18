@@ -14,6 +14,7 @@ import java.util.List;
  */
 public class FormsResponseObject {
 
+    private int numberOfForms;
     private List<Form> formsList;
 
     /**
@@ -21,6 +22,7 @@ public class FormsResponseObject {
      */
     public FormsResponseObject() {
         this.formsList = new ArrayList<>();
+        this.numberOfForms = 0;
     }
 
     /**
@@ -40,10 +42,19 @@ public class FormsResponseObject {
     }
 
     /**
+     * Get number of form objects
+     * @return number of forms
+     */
+    public int getNumberOfForms() {
+        return numberOfForms;
+    }
+
+    /**
      * Add single Form object to Forms list
      * @param form
      */
     public void addForm(Form form) {
         this.formsList.add(form);
+        this.numberOfForms++;
     }
 }

@@ -14,6 +14,7 @@ import java.util.List;
  */
 public class ProjectsResponseObject {
 
+    private int numberOfProjects;
     private List<Project> projectsList;
 
     /**
@@ -21,6 +22,7 @@ public class ProjectsResponseObject {
      */
     public ProjectsResponseObject() {
         this.projectsList = new ArrayList<>();
+        this.numberOfProjects = 0;
     }
 
     /**
@@ -40,10 +42,19 @@ public class ProjectsResponseObject {
     }
 
     /**
+     * Get number of project objects
+     * @return number of projects
+     */
+    public int getNumberOfProjects() {
+        return numberOfProjects;
+    }
+
+    /**
      * Add single Project object to Projects list
      * @param project
      */
     public void addProject(Project project) {
         this.projectsList.add(project);
+        this.numberOfProjects++;
     }
 }
