@@ -8,6 +8,7 @@ import de.tum.ar.researchplatform.util.Constants;
 import org.springframework.data.annotation.Id;
 import org.springframework.data.mongodb.core.mapping.Document;
 
+import java.util.Calendar;
 import java.util.Date;
 
 /**
@@ -21,11 +22,16 @@ public class Project {
 
     private String formId;
 
+    private String name;
+    private String chairName;
+    private String description;
     private String userId;
 
     private Constants.ProjectStatus status;
 
     private Date createdAt;
+
+    private int yearOfCreation;
 
     /**
      * No arg constructor
@@ -35,6 +41,12 @@ public class Project {
         this.formId = "";
         this.userId = "";
         this.status = Constants.ProjectStatus.NOTSUBMITTED;
+        this.name = "";
+        this.chairName = "";
+        this.description = "";
+        Calendar calendar = Calendar.getInstance();
+        calendar.setTime(this.createdAt);
+        this.yearOfCreation = calendar.get(Calendar.YEAR);
     }
 
     /**
@@ -42,12 +54,21 @@ public class Project {
      * @param formId
      * @param userId
      * @param status
+     * @param name
+     * @param chairName
+     * @param description
      */
-    public Project(String formId, String userId, Constants.ProjectStatus status) {
+    public Project(String formId, String userId, Constants.ProjectStatus status, String name, String chairName, String description) {
         this.createdAt = new Date();
         this.formId = formId;
         this.userId = userId;
         this.status = status;
+        this.name = name;
+        this.chairName = chairName;
+        this.description = description;
+        Calendar calendar = Calendar.getInstance();
+        calendar.setTime(this.createdAt);
+        this.yearOfCreation = calendar.get(Calendar.YEAR);
     }
 
     /**
@@ -91,6 +112,54 @@ public class Project {
     }
 
     /**
+     * Get project name
+     * @return name
+     */
+    public String getName() {
+        return name;
+    }
+
+    /**
+     * Set project name
+     * @param name
+     */
+    public void setName(String name) {
+        this.name = name;
+    }
+
+    /**
+     * Get chair name
+     * @return name
+     */
+    public String getChairName() {
+        return chairName;
+    }
+
+    /**
+     * Set chair name
+     * @param chairName
+     */
+    public void setChairName(String chairName) {
+        this.chairName = chairName;
+    }
+
+    /**
+     * Get description
+     * @return description
+     */
+    public String getDescription() {
+        return description;
+    }
+
+    /**
+     * Set description
+     * @param description
+     */
+    public void setDescription(String description) {
+        this.description = description;
+    }
+
+    /**
      * Get project status
      * @return project status
      */
@@ -114,14 +183,43 @@ public class Project {
         return createdAt;
     }
 
+    /**
+     * Set year of object creation
+     */
+    public void setYearOfCreation() {
+        Calendar calendar = Calendar.getInstance();
+        calendar.setTime(this.createdAt);
+        this.yearOfCreation = calendar.get(Calendar.YEAR);
+    }
+
+    /**
+     * Set year of object creation
+     * @param year
+     */
+    public void setYearOfCreation(int year) {
+        this.yearOfCreation = year;
+    }
+
+    /**
+     * Get year of object creation
+     * @return year
+     */
+    public int getYearOfCreation() {
+        return yearOfCreation;
+    }
+
     @Override
     public String toString() {
         return "Project{" +
                 "id='" + id + '\'' +
                 ", formId='" + formId + '\'' +
+                ", name='" + name + '\'' +
+                ", chairName='" + chairName + '\'' +
+                ", description='" + description + '\'' +
                 ", userId='" + userId + '\'' +
                 ", status=" + status +
                 ", createdAt=" + createdAt +
+                ", yearOfCreation=" + yearOfCreation +
                 '}';
     }
 }
