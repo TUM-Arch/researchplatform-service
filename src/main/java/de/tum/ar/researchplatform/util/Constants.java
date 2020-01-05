@@ -33,6 +33,7 @@ public final class Constants {
     //Enum for Project object
     public enum ProjectStatus {
         NOTSUBMITTED,
-        SUBMITTED
+        SUBMITTED,
+        APPROVED
     }
 }

@@ -8,8 +8,10 @@ import de.tum.ar.researchplatform.util.Constants;
 import org.springframework.data.annotation.Id;
 import org.springframework.data.mongodb.core.mapping.Document;
 
+import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
+import java.util.List;
 
 /**
  * Class representing a Project object
@@ -20,12 +22,13 @@ public class Project {
     @Id
     private String id; // Used by Mongo automatically
 
-    private String formId;
-
     private String name;
     private String chairName;
     private String description;
     private String userId;
+    private List<String> tags;
+
+    private List<Field> fields;
 
     private Constants.ProjectStatus status;
 
@@ -38,12 +41,13 @@ public class Project {
      */
     public Project() {
         this.createdAt = new Date();
-        this.formId = "";
         this.userId = "";
         this.status = Constants.ProjectStatus.NOTSUBMITTED;
         this.name = "";
         this.chairName = "";
         this.description = "";
+        this.tags = new ArrayList<>();
+        this.fields = new ArrayList<>();
         Calendar calendar = Calendar.getInstance();
         calendar.setTime(this.createdAt);
         this.yearOfCreation = calendar.get(Calendar.YEAR);
@@ -51,21 +55,23 @@ public class Project {
 
     /**
      * Constructor
-     * @param formId
      * @param userId
      * @param status
      * @param name
      * @param chairName
      * @param description
+     * @param tags
+     * @param fields
      */
-    public Project(String formId, String userId, Constants.ProjectStatus status, String name, String chairName, String description) {
+    public Project(String userId, Constants.ProjectStatus status, String name, String chairName, String description, List<String> tags, List<Field> fields) {
         this.createdAt = new Date();
-        this.formId = formId;
         this.userId = userId;
         this.status = status;
         this.name = name;
         this.chairName = chairName;
         this.description = description;
+        this.tags = tags;
+        this.fields = fields;
         Calendar calendar = Calendar.getInstance();
         calendar.setTime(this.createdAt);
         this.yearOfCreation = calendar.get(Calendar.YEAR);
@@ -77,22 +83,6 @@ public class Project {
      */
     public String getId() {
         return id;
-    }
-
-    /**
-     * Get associated form reference
-     * @return form reference id
-     */
-    public String getFormId() {
-        return formId;
-    }
-
-    /**
-     * Set form reference
-     * @param formId
-     */
-    public void setFormId(String formId) {
-        this.formId = formId;
     }
 
     /**
@@ -109,6 +99,38 @@ public class Project {
      */
     public void setUserId(String userId) {
         this.userId = userId;
+    }
+
+    /**
+     * Get all tags associated with project
+     * @return tags
+     */
+    public List<String> getTags() {
+        return tags;
+    }
+
+    /**
+     * Set tags associated with project
+     * @param tags
+     */
+    public void setTags(List<String> tags) {
+        this.tags = tags;
+    }
+
+    /**
+     * Get all form fields for project
+     * @return fields
+     */
+    public List<Field> getFields() {
+        return fields;
+    }
+
+    /**
+     * Set form fields for project
+     * @param fields
+     */
+    public void setFields(List<Field> fields) {
+        this.fields = fields;
     }
 
     /**
@@ -212,11 +234,12 @@ public class Project {
     public String toString() {
         return "Project{" +
                 "id='" + id + '\'' +
-                ", formId='" + formId + '\'' +
                 ", name='" + name + '\'' +
                 ", chairName='" + chairName + '\'' +
                 ", description='" + description + '\'' +
                 ", userId='" + userId + '\'' +
+                ", tags='" + tags + '\'' +
+                ", fields='" + fields + '\'' +
                 ", status=" + status +
                 ", createdAt=" + createdAt +
                 ", yearOfCreation=" + yearOfCreation +

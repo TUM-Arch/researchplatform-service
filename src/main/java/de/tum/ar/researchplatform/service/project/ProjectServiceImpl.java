@@ -1,4 +1,4 @@
-package de.tum.ar.researchplatform.service;
+package de.tum.ar.researchplatform.service.project;
 
 
 import de.tum.ar.researchplatform.model.Project;

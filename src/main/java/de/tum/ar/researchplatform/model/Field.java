@@ -4,6 +4,8 @@ package de.tum.ar.researchplatform.model;
  * Created by karthik on 9/10/2019
  */
 
+import de.tum.ar.researchplatform.model.subfields.SubField;
+import de.tum.ar.researchplatform.model.subfields.TextField;
 import de.tum.ar.researchplatform.util.Constants;
 import org.springframework.data.annotation.Id;
 import org.springframework.data.mongodb.core.mapping.Document;
@@ -21,41 +23,46 @@ public class Field {
 
     private String nameEn;
     private String nameDe;
-    private String defaultValue;
 
     private Constants.FieldType type;
+    private SubField subField;
 
     private boolean isRequired;
+    private boolean isActive;
 
     private Date createdAt;
 
     /**
      * No arg constructor
+     * Creates empty text field
      */
     public Field() {
         this.createdAt = new Date();
         this.nameEn = "";
         this.nameDe = "";
-        this.defaultValue = "";
         this.type = Constants.FieldType.TEXT;
+        this.subField = new TextField();
         this.isRequired = false;
+        this.isActive = false;
     }
 
     /**
      * Constructor
      * @param nameEn
      * @param nameDe
-     * @param defaultValue
+     * @param subField
      * @param type
      * @param isRequired
+     * @param isActive
      */
-    public Field(String nameEn, String nameDe, String defaultValue, Constants.FieldType type, boolean isRequired) {
+    public Field(String nameEn, String nameDe, SubField subField, Constants.FieldType type, boolean isRequired, boolean isActive) {
         this.createdAt = new Date();
         this.nameEn = nameEn;
         this.nameDe = nameDe;
-        this.defaultValue = defaultValue;
         this.type = type;
+        this.subField = subField;
         this.isRequired = isRequired;
+        this.isActive = isActive;
     }
 
     /**
@@ -99,22 +106,6 @@ public class Field {
     }
 
     /**
-     * Get default value given
-     * @return default value
-     */
-    public String getDefaultValue() {
-        return defaultValue;
-    }
-
-    /**
-     * Set default value
-     * @param defaultValue
-     */
-    public void setDefaultValue(String defaultValue) {
-        this.defaultValue = defaultValue;
-    }
-
-    /**
      * Get field type
      * @return field type
      */
@@ -128,6 +119,22 @@ public class Field {
      */
     public void setType(Constants.FieldType type) {
         this.type = type;
+    }
+
+    /**
+     * Get sub field
+     * @return subfield
+     */
+    public SubField getSubField() {
+        return subField;
+    }
+
+    /**
+     * Set sub field
+     * @param subField
+     */
+    public void setSubField(SubField subField) {
+        this.subField = subField;
     }
 
     /**
@@ -147,6 +154,22 @@ public class Field {
     }
 
     /**
+     * Get if field is marked active
+     * @return true if field marked active
+     */
+    public boolean isActive() {
+        return isActive;
+    }
+
+    /**
+     * Set field marked as active
+     * @param active
+     */
+    public void setActive(boolean active) {
+        isActive = active;
+    }
+
+    /**
      * Get date of object creation
      * @return date
      */
@@ -160,9 +183,10 @@ public class Field {
                 "id='" + id + '\'' +
                 ", nameEn='" + nameEn + '\'' +
                 ", nameDe='" + nameDe + '\'' +
-                ", defaultValue='" + defaultValue + '\'' +
                 ", type=" + type +
+                ", subField=" + subField +
                 ", isRequired=" + isRequired +
+                ", isActive=" + isActive +
                 ", createdAt=" + createdAt +
                 '}';
     }

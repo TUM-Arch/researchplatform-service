@@ -1,4 +1,4 @@
-package de.tum.ar.researchplatform.service;
+package de.tum.ar.researchplatform.service.field;
 
 import de.tum.ar.researchplatform.model.Field;
 import de.tum.ar.researchplatform.repository.FieldRepository;
@@ -6,6 +6,9 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+
+import java.util.ArrayList;
+import java.util.List;
 
 /**
  * Created by karthik on 9/10/2019
@@ -19,8 +22,20 @@ public class FieldServiceImpl implements FieldService {
     private static final Logger logger = LoggerFactory.getLogger(FieldServiceImpl.class);
 
     @Override
-    public Iterable listAll() {
+    public List<Field> listAll() {
         return fieldRepository.findAll();
+    }
+
+    @Override
+    public List<Field> listAllActive() {
+        List<Field> fields = new ArrayList<>(fieldRepository.findAll());
+        List<Field> activeFields = new ArrayList<>();
+         for(Field field : fields) {
+             if(field.isActive()) {
+                 activeFields.add(field);
+             }
+         }
+         return activeFields;
     }
 
     @Override

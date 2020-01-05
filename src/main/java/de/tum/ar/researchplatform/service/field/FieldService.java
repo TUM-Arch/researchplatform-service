@@ -1,6 +1,8 @@
-package de.tum.ar.researchplatform.service;
+package de.tum.ar.researchplatform.service.field;
 
 import de.tum.ar.researchplatform.model.Field;
+
+import java.util.List;
 
 /**
  * Created by karthik on 9/10/2019
@@ -11,7 +13,13 @@ public interface FieldService {
      * List all Field objects
      * @return All Field objects
      */
-    Iterable listAll();
+    List<Field> listAll();
+
+    /**
+     * List all active Field objects
+     * @return All active Field objects
+     */
+    List<Field> listAllActive();
 
     /**
      * Find Field object by id

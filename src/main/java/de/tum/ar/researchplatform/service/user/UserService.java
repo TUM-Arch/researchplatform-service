@@ -1,4 +1,4 @@
-package de.tum.ar.researchplatform.service;
+package de.tum.ar.researchplatform.service.user;
 
 import de.tum.ar.researchplatform.model.User;
 
