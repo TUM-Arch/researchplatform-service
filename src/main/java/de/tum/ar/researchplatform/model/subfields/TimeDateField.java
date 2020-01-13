@@ -3,6 +3,19 @@ package de.tum.ar.researchplatform.model.subfields;
 /**
  * Created by karthik on 1/5/2020
  */
+
+import lombok.Getter;
+import lombok.NoArgsConstructor;
+import lombok.Setter;
+import lombok.ToString;
+
+/**
+ * This field represents a DATE or a TIME field
+ */
+@Getter
+@Setter
+@NoArgsConstructor
+@ToString
 public class TimeDateField implements SubField {
     private String defaultValue;
 
@@ -11,32 +24,5 @@ public class TimeDateField implements SubField {
     public TimeDateField(String defaultValue, String value) {
         this.defaultValue = defaultValue;
         this.value = value;
-    }
-
-    public TimeDateField() {
-    }
-
-    public String isDefaultValue() {
-        return defaultValue;
-    }
-
-    public void setDefaultValue(String defaultValue) {
-        this.defaultValue = defaultValue;
-    }
-
-    public String isValue() {
-        return value;
-    }
-
-    public void setValue(String value) {
-        this.value = value;
-    }
-
-    @Override
-    public String toString() {
-        return "TimeDateField{" +
-                "defaultValue=" + defaultValue +
-                ", value=" + value +
-                '}';
     }
 }

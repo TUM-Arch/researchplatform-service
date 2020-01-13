@@ -2,6 +2,8 @@ package de.tum.ar.researchplatform.service.user;
 
 import de.tum.ar.researchplatform.model.User;
 
+import java.util.List;
+
 /**
  * Created by karthik on 9/9/2019
  */
@@ -11,7 +13,7 @@ public interface UserService {
      * List all User objects
      * @return All User objects
      */
-    Iterable listAll();
+    List<User> listAll();
 
     /**
      * Find User object by id

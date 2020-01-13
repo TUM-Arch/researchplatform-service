@@ -1,8 +1,10 @@
 package de.tum.ar.researchplatform.model.response;
 
 import de.tum.ar.researchplatform.model.User;
+import lombok.Getter;
+import lombok.NoArgsConstructor;
+import lombok.Setter;
 
-import java.util.ArrayList;
 import java.util.List;
 
 /**
@@ -12,26 +14,13 @@ import java.util.List;
 /**
  * Response object for list of all users
  */
+@Getter
+@NoArgsConstructor
 public class UsersResponseObject {
 
+    @Setter
     private int numberOfUsers;
     private List<User> usersList;
-
-    /**
-     * No arg constructor
-     */
-    public UsersResponseObject() {
-        this.usersList = new ArrayList<>();
-        this.numberOfUsers = 0;
-    }
-
-    /**
-     * Get list of Users
-     * @return list of Users
-     */
-    public List<User> getUsersList() {
-        return usersList;
-    }
 
     /**
      * Set Users list
@@ -39,14 +28,7 @@ public class UsersResponseObject {
      */
     public void setUsersList(List<User> usersList) {
         this.usersList = usersList;
-    }
-
-    /**
-     * Get number of user objects
-     * @return number of users
-     */
-    public int getNumberOfUsers() {
-        return numberOfUsers;
+        this.numberOfUsers = usersList.size();
     }
 
     /**

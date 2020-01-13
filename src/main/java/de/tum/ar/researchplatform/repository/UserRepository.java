@@ -11,7 +11,6 @@ import org.springframework.data.rest.core.annotation.RestResource;
 /**
  * Data Repository class used to access User collection
  */
-@RestResource(exported = false)
 public interface UserRepository extends MongoRepository<User,String> {
 
     /**

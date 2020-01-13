@@ -2,6 +2,8 @@ package de.tum.ar.researchplatform.service.project;
 
 import de.tum.ar.researchplatform.model.Project;
 
+import java.util.List;
+
 /**
  * Created by karthik on 9/10/2019
  */
@@ -11,7 +13,7 @@ public interface ProjectService {
      * List all Project objects
      * @return All Project objects
      */
-    Iterable listAll();
+    List<Project> listAll();
 
     /**
      * Find Project object by id

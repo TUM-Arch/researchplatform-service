@@ -2,6 +2,7 @@ package de.tum.ar.researchplatform.service.field;
 
 import de.tum.ar.researchplatform.model.Field;
 import de.tum.ar.researchplatform.repository.FieldRepository;
+import lombok.extern.slf4j.Slf4j;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -14,12 +15,11 @@ import java.util.List;
  * Created by karthik on 9/10/2019
  */
 @Service
+@Slf4j
 public class FieldServiceImpl implements FieldService {
 
     @Autowired
     private FieldRepository fieldRepository;
-
-    private static final Logger logger = LoggerFactory.getLogger(FieldServiceImpl.class);
 
     @Override
     public List<Field> listAll() {
@@ -46,14 +46,14 @@ public class FieldServiceImpl implements FieldService {
     @Override
     public Field saveOrUpdate(Field field) {
         fieldRepository.save(field);
-        logger.info("Updated Field: " + field);
+        log.info("Updated Field: " + field);
         return field;
     }
 
     @Override
     public void delete(Field field) {
         fieldRepository.delete(field);
-        logger.info("Deleted Field: " + field);
+        log.info("Deleted Field: " + field);
     }
 
     @Override
@@ -72,7 +72,7 @@ public class FieldServiceImpl implements FieldService {
     @Override
     public void deleteAll() {
         fieldRepository.deleteAll();
-        logger.info("Deleted All Fields");
+        log.info("Deleted All Fields");
     }
 
     @Override

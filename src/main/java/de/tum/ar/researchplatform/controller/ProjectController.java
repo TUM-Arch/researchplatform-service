@@ -26,10 +26,7 @@ public class ProjectController {
     @GetMapping(value = "/projects", produces = MediaType.APPLICATION_JSON_VALUE)
     public ProjectsResponseObject getAllProjects() {
         ProjectsResponseObject projectsResponseObject = new ProjectsResponseObject();
-        Iterable<Project> projectList = projectService.listAll();
-        for (Project project: projectList) {
-            projectsResponseObject.addProject(project);
-        }
+        projectsResponseObject.setProjectsList(projectService.listAll());
         return projectsResponseObject;
     }
 }

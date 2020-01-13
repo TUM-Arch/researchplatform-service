@@ -3,40 +3,26 @@ package de.tum.ar.researchplatform.model.subfields;
 /**
  * Created by karthik on 1/5/2020
  */
+
+import lombok.Getter;
+import lombok.NoArgsConstructor;
+import lombok.Setter;
+import lombok.ToString;
+
+/**
+ * This field represents a RADIO, CHECKBOX or a SWITCH field
+ */
+@Getter
+@Setter
+@NoArgsConstructor
+@ToString
 public class BooleanField implements SubField {
     private boolean defaultValue;
 
     private boolean value;
 
-    public BooleanField(boolean defaultValue, boolean value) {
+    public BooleanField(boolean defaultValue, boolean isValueTrue) {
         this.defaultValue = defaultValue;
-        this.value = value;
-    }
-
-    public BooleanField() {
-    }
-
-    public boolean isDefaultValue() {
-        return defaultValue;
-    }
-
-    public void setDefaultValue(boolean defaultValue) {
-        this.defaultValue = defaultValue;
-    }
-
-    public boolean isValue() {
-        return value;
-    }
-
-    public void setValue(boolean value) {
-        this.value = value;
-    }
-
-    @Override
-    public String toString() {
-        return "BooleanField{" +
-                "defaultValue=" + defaultValue +
-                ", value=" + value +
-                '}';
+        this.value = isValueTrue;
     }
 }

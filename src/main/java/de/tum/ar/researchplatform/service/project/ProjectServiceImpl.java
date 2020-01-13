@@ -3,24 +3,26 @@ package de.tum.ar.researchplatform.service.project;
 
 import de.tum.ar.researchplatform.model.Project;
 import de.tum.ar.researchplatform.repository.ProjectRepository;
+import lombok.extern.slf4j.Slf4j;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.util.List;
+
 /**
  * Created by karthik on 9/10/2019
  */
 @Service
+@Slf4j
 public class ProjectServiceImpl implements ProjectService {
 
     @Autowired
     private ProjectRepository projectRepository;
 
-    private static final Logger logger = LoggerFactory.getLogger(ProjectServiceImpl.class);
-
     @Override
-    public Iterable listAll() {
+    public List<Project> listAll() {
         return projectRepository.findAll();
     }
 
@@ -32,14 +34,14 @@ public class ProjectServiceImpl implements ProjectService {
     @Override
     public Project saveOrUpdate(Project project) {
         projectRepository.save(project);
-        logger.info("Updated Project: " + project);
+        log.info("Updated Project: " + project);
         return project;
     }
 
     @Override
     public void delete(Project project) {
         projectRepository.delete(project);
-        logger.info("Deleted Project: " + project);
+        log.info("Deleted Project: " + project);
     }
 
     @Override
@@ -58,7 +60,7 @@ public class ProjectServiceImpl implements ProjectService {
     @Override
     public void deleteAll() {
         projectRepository.deleteAll();
-        logger.info("Deleted All Projects");
+        log.info("Deleted All Projects");
     }
 
     @Override

@@ -2,24 +2,26 @@ package de.tum.ar.researchplatform.service.user;
 
 import de.tum.ar.researchplatform.model.User;
 import de.tum.ar.researchplatform.repository.UserRepository;
+import lombok.extern.slf4j.Slf4j;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.util.List;
+
 /**
  * Created by karthik on 9/9/2019
  */
 @Service
+@Slf4j
 public class UserServiceImpl implements UserService{
 
     @Autowired
     private UserRepository userRepository;
 
-    private static final Logger logger = LoggerFactory.getLogger(UserServiceImpl.class);
-
     @Override
-    public Iterable listAll() {
+    public List<User> listAll() {
         return userRepository.findAll();
     }
 
@@ -36,14 +38,14 @@ public class UserServiceImpl implements UserService{
     @Override
     public User saveOrUpdate(User user) {
         userRepository.save(user);
-        logger.info("Updated User: " + user);
+        log.info("Updated User: " + user);
         return user;
     }
 
     @Override
     public void delete(User user) {
         userRepository.delete(user);
-        logger.info("Deleted User: " + user);
+        log.info("Deleted User: " + user);
     }
 
     @Override
@@ -62,7 +64,7 @@ public class UserServiceImpl implements UserService{
     @Override
     public void deleteAll() {
         userRepository.deleteAll();
-        logger.info("Deleted All Users");
+        log.info("Deleted All Users");
     }
 
     @Override

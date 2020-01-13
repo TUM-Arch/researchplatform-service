@@ -11,7 +11,6 @@ import org.springframework.data.rest.core.annotation.RestResource;
 /**
  * Data Repository class used to access Field collection
  */
-@RestResource(exported = false)
 public interface FieldRepository extends MongoRepository<Field,String> {
 
     /**

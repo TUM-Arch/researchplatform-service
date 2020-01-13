@@ -11,7 +11,6 @@ import org.springframework.data.rest.core.annotation.RestResource;
 /**
  * Data Repository class used to access Project collection
  */
-@RestResource(exported = false)
 public interface ProjectRepository extends MongoRepository<Project,String> {
 
     /**

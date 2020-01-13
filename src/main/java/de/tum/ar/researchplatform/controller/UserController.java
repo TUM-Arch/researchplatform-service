@@ -26,10 +26,7 @@ public class UserController {
     @GetMapping(value = "/users", produces = MediaType.APPLICATION_JSON_VALUE)
     public UsersResponseObject getAllUsers() {
         UsersResponseObject usersResponseObject = new UsersResponseObject();
-        Iterable<User> userList = userService.listAll();
-        for (User user: userList) {
-            usersResponseObject.addUser(user);
-        }
+        usersResponseObject.setUsersList(userService.listAll());
         return usersResponseObject;
     }
 }

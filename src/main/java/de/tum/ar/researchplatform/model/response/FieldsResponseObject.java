@@ -5,33 +5,22 @@ package de.tum.ar.researchplatform.model.response;
  */
 
 import de.tum.ar.researchplatform.model.Field;
+import lombok.Getter;
+import lombok.NoArgsConstructor;
+import lombok.Setter;
 
-import java.util.ArrayList;
 import java.util.List;
 
 /**
  * Response object for list of all fields
  */
+@Getter
+@NoArgsConstructor
 public class FieldsResponseObject {
 
+    @Setter
     private int numberOfFields;
     private List<Field> fieldsList;
-
-    /**
-     * No arg constructor
-     */
-    public FieldsResponseObject() {
-        this.fieldsList = new ArrayList<>();
-        this.numberOfFields = 0;
-    }
-
-    /**
-     * Get list of Fields
-     * @return list of Fields
-     */
-    public List<Field> getFieldsList() {
-        return fieldsList;
-    }
 
     /**
      * Set Fields list
@@ -40,14 +29,6 @@ public class FieldsResponseObject {
     public void setFieldsList(List<Field> fieldsList) {
         this.fieldsList = fieldsList;
         this.numberOfFields = fieldsList.size();
-    }
-
-    /**
-     * Get number of field objects
-     * @return number of fields
-     */
-    public int getNumberOfFields() {
-        return numberOfFields;
     }
 
     /**

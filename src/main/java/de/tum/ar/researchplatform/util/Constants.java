@@ -27,6 +27,7 @@ public final class Constants {
         CHECKBOX,
         SWITCH,
         TEXT,
+        IMAGE,
         MULTITEXT
     }
 

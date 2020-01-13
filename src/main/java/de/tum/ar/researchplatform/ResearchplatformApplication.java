@@ -7,8 +7,7 @@ import de.tum.ar.researchplatform.service.field.FieldServiceImpl;
 import de.tum.ar.researchplatform.service.project.ProjectServiceImpl;
 import de.tum.ar.researchplatform.service.user.UserServiceImpl;
 import de.tum.ar.researchplatform.util.Constants;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
@@ -17,6 +16,7 @@ import org.springframework.context.annotation.AnnotationConfigApplicationContext
 import java.util.ArrayList;
 
 @SpringBootApplication
+@Slf4j
 public class ResearchplatformApplication {
 
     @Autowired
@@ -25,8 +25,6 @@ public class ResearchplatformApplication {
     private FieldServiceImpl fieldService;
     @Autowired
     private ProjectServiceImpl projectService;
-
-    private static final Logger logger = LoggerFactory.getLogger(ResearchplatformApplication.class);
 
 	public static void main(String[] args) {
 		SpringApplication.run(ResearchplatformApplication.class, args);
