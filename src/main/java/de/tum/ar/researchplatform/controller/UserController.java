@@ -5,8 +5,14 @@ import de.tum.ar.researchplatform.model.response.UsersResponseObject;
 import de.tum.ar.researchplatform.service.user.UserServiceImpl;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.MediaType;
+import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.PutMapping;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 /**
@@ -29,4 +35,59 @@ public class UserController {
         usersResponseObject.setUsersList(userService.listAll());
         return usersResponseObject;
     }
+
+    /**
+     * Endpoint to get a single User by id
+     * @return a single User
+     */
+    @GetMapping(value = "/users/{id}", produces = MediaType.APPLICATION_JSON_VALUE)
+    public User getUserById(@PathVariable String id) {
+        User user = userService.findById(id);
+        return user;
+    }
+    
+    /**
+     * Endpoint to get a single User by name
+     * @return a single User
+     */
+    @GetMapping(value = "/user", produces = MediaType.APPLICATION_JSON_VALUE)
+    public User getUserByName(@RequestParam String name) {
+        User user = userService.findByName(name);
+        return user;
+    }
+    
+    /**
+     * Endpoint to add a User
+     * @return a single User
+     */
+    @PostMapping(value = "/users")
+    public User addUser(@RequestBody User user) {
+        return userService.saveOrUpdate(user);
+    }
+    
+    /**
+     * Endpoint to update a User
+     * @return a single User
+     */
+    @PutMapping(value = "/users")
+    public User updateUser(User user) {
+        return userService.saveOrUpdate(user);
+    }
+    
+    /**
+     * Endpoint to delete a User
+     */
+    @DeleteMapping(value = "/users")
+    public void deleteAllUsers() {
+        userService.deleteAll();
+    }
+    
+    /**
+     * Endpoint to delete a User by id
+     */
+    @DeleteMapping(value = "/users/{id}")
+    public void deleteUserById(@PathVariable String id) {
+        userService.deleteById(id);
+    }
+    
 }
