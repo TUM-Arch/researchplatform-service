@@ -2,8 +2,6 @@
 
 This project is based on Java Spring. Database used is MongoDB.
 
-[![Build Status](https://travis-ci.org/TUM-Arch/researchplatform-service.svg?branch=dev)](https://travis-ci.org/TUM-Arch/researchplatform-service)
-
 ## Build the project
 To build, run the command: `./mvnw install -DskipTests=true` in the root directory
 
