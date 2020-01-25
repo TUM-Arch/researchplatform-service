@@ -1,6 +1,5 @@
 package de.tum.ar.researchplatform;
 
-import de.tum.ar.researchplatform.model.Field;
 import de.tum.ar.researchplatform.model.Project;
 import de.tum.ar.researchplatform.model.User;
 import de.tum.ar.researchplatform.service.field.FieldServiceImpl;
@@ -11,7 +10,7 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
-import org.springframework.context.annotation.AnnotationConfigApplicationContext;
+import org.springframework.context.ApplicationContext;
 
 import java.util.ArrayList;
 
@@ -27,15 +26,11 @@ public class ResearchplatformApplication {
     private ProjectServiceImpl projectService;
 
 	public static void main(String[] args) {
-		SpringApplication.run(ResearchplatformApplication.class, args);
-		testDBCode();
+        ApplicationContext context = SpringApplication.run(ResearchplatformApplication.class, args);
+		testDBCode(context);
 	}
 
-    public static void testDBCode() {
-        AnnotationConfigApplicationContext context = new AnnotationConfigApplicationContext();
-        context.scan("de.tum.ar.researchplatform");
-        context.refresh();
-
+    public static void testDBCode(ApplicationContext context) {
         //Services
         UserServiceImpl userService = context.getBean(UserServiceImpl.class);
         ProjectServiceImpl projectService = context.getBean(ProjectServiceImpl.class);
@@ -67,12 +62,5 @@ public class ResearchplatformApplication {
         project.setYearOfCreation(2020);
         projectService.saveOrUpdate(project);
 
-
-        //CleanUp
-        /*userService.deleteAll();
-        fieldService.deleteAll();
-        projectService.deleteAll();*/
-
-        context.close();
-    }
+	}
 }
