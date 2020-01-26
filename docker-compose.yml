@@ -1,0 +1,14 @@
+version: '3.7'
+
+# Define services
+services:
+  # Spring service
+  app-server:
+    # Configuration for building the docker image for the backend service
+    build:
+      context: .
+      dockerfile: Dockerfile
+    command: --spring.profiles.active=test
+    ports:
+      - "5000:5000" # Forward the exposed port 5000 on the container to port 5000 on the host machine
+    restart: always
