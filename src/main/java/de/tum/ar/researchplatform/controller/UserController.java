@@ -1,6 +1,7 @@
 package de.tum.ar.researchplatform.controller;
 
 import de.tum.ar.researchplatform.model.User;
+import de.tum.ar.researchplatform.model.request.UsersRequestObject;
 import de.tum.ar.researchplatform.model.response.UsersResponseObject;
 import de.tum.ar.researchplatform.service.user.UserServiceImpl;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -60,8 +61,13 @@ public class UserController {
      * Endpoint to add a User
      * @return a single User
      */
-    @PostMapping(value = "/users")
-    public User addUser(@RequestBody User user) {
+    @PostMapping(value = "/users", produces = MediaType.APPLICATION_JSON_VALUE)
+    public User addUser(@RequestBody UsersRequestObject userDetails) {
+    	User user;
+    	if (userDetails.getProjectIds() == null)
+           user = new User(userDetails.getName(), userDetails.getTumId(), userDetails.isAdmin());
+        else
+           user = new User(userDetails.getName(), userDetails.getTumId(), userDetails.getProjectIds(), userDetails.isAdmin());
         return userService.saveOrUpdate(user);
     }
     
@@ -69,9 +75,18 @@ public class UserController {
      * Endpoint to update a User
      * @return a single User
      */
-    @PutMapping(value = "/users")
-    public User updateUser(User user) {
-        return userService.saveOrUpdate(user);
+    @PutMapping(value = "/users/{id}", produces = MediaType.APPLICATION_JSON_VALUE)
+    public User updateUser(@PathVariable String id, @RequestBody UsersRequestObject userDetails) {
+    	User user = userService.findById(id);
+    	if (userDetails.getName() != null)
+    		user.setName(userDetails.getName());
+        if (userDetails.getProjectIds() != null)
+        	user.setProjectIds(userDetails.getProjectIds());
+        if (userDetails.getTumId() != null)
+        	user.setTumId(userDetails.getTumId());
+        if (userDetails.isAdmin() != user.isAdmin())
+        	user.setAdmin(userDetails.isAdmin());
+    	return userService.saveOrUpdate(user);
     }
     
     /**
