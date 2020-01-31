@@ -13,8 +13,8 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
+import javax.validation.Valid;
 
 /**
  * Created by karthik on 9/9/2019
@@ -48,26 +48,12 @@ public class UserController {
     }
     
     /**
-     * Endpoint to get a single User by name
-     * @return a single User
-     */
-    @GetMapping(value = "/user", produces = MediaType.APPLICATION_JSON_VALUE)
-    public User getUserByName(@RequestParam String name) {
-        User user = userService.findByName(name);
-        return user;
-    }
-    
-    /**
      * Endpoint to add a User
      * @return a single User
      */
     @PostMapping(value = "/users", produces = MediaType.APPLICATION_JSON_VALUE)
-    public User addUser(@RequestBody UsersRequestObject userDetails) {
-    	User user;
-    	if (userDetails.getProjectIds() == null)
-           user = new User(userDetails.getName(), userDetails.getTumId(), userDetails.isAdmin());
-        else
-           user = new User(userDetails.getName(), userDetails.getTumId(), userDetails.getProjectIds(), userDetails.isAdmin());
+    public User addUser(@org.jetbrains.annotations.NotNull @Valid @RequestBody UsersRequestObject userDetails) {
+    	User user = new User(userDetails.getName(), userDetails.getTumId(), userDetails.getProjectIds(), userDetails.isAdmin());
         return userService.saveOrUpdate(user);
     }
     
@@ -76,16 +62,12 @@ public class UserController {
      * @return a single User
      */
     @PutMapping(value = "/users/{id}", produces = MediaType.APPLICATION_JSON_VALUE)
-    public User updateUser(@PathVariable String id, @RequestBody UsersRequestObject userDetails) {
+    public User updateUser(@PathVariable String id, @Valid @RequestBody UsersRequestObject userDetails) {
     	User user = userService.findById(id);
-    	if (userDetails.getName() != null)
-    		user.setName(userDetails.getName());
-        if (userDetails.getProjectIds() != null)
-        	user.setProjectIds(userDetails.getProjectIds());
-        if (userDetails.getTumId() != null)
-        	user.setTumId(userDetails.getTumId());
-        if (userDetails.isAdmin() != user.isAdmin())
-        	user.setAdmin(userDetails.isAdmin());
+    	user.setName(userDetails.getName());
+    	user.setProjectIds(userDetails.getProjectIds());
+        user.setTumId(userDetails.getTumId());
+        user.setAdmin(userDetails.isAdmin());
     	return userService.saveOrUpdate(user);
     }
     
