@@ -52,7 +52,7 @@ public class UserController {
      * @return a single User
      */
     @PostMapping(value = "/users", produces = MediaType.APPLICATION_JSON_VALUE)
-    public User addUser(@org.jetbrains.annotations.NotNull @Valid @RequestBody UsersRequestObject userDetails) {
+    public User addUser(@Valid @RequestBody UsersRequestObject userDetails) {
     	User user = new User(userDetails.getName(), userDetails.getTumId(), userDetails.getProjectIds(), userDetails.isAdmin());
         return userService.saveOrUpdate(user);
     }
