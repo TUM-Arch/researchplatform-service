@@ -56,7 +56,7 @@ public interface ProjectService {
     /**
      * Find Project object by User ID
      * @param userId
-     * @return Project object found
+     * @return All Project objects found
      */
-    Project findByUserId(String userId);
+    List<Project> findByUserId(String userId);
 }

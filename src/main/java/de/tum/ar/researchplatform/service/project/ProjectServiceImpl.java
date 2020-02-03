@@ -64,7 +64,7 @@ public class ProjectServiceImpl implements ProjectService {
     }
 
     @Override
-    public Project findByUserId(String userId) {
+    public List<Project> findByUserId(String userId) {
         return projectRepository.findByUserId(userId);
     }
 }
