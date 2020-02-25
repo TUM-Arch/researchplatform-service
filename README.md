@@ -5,7 +5,7 @@ This project is based on Java Spring (JDK11). Database used is MongoDB.
 ## Run locally
 
 #### Build the project
-To build, run the command: `./mvnw install -DskipTests=true` in the root directory
+To build, run the command: `./mvnw install -DskipTests=true` in the root directory.
 
 #### Setup MongoDB locally
 To setup a local database instance, install the community server from [here](https://www.mongodb.com/download-center/community) and set it up to start at **localhost** with port **27017** without any authentication.
