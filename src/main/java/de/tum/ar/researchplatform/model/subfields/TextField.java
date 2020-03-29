@@ -19,10 +19,12 @@ import lombok.ToString;
 public class TextField implements SubField {
     private String defaultValue;
 
-    private String value;
+    private String valueEn;
+    private String valueDe;
 
-    public TextField(String defaultValue, String value) {
+    public TextField(String defaultValue, String valueEn, String valueDe) {
         this.defaultValue = defaultValue;
-        this.value = value;
+        this.valueEn = valueEn;
+        this.valueDe = valueDe;
     }
 }
