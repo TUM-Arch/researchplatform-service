@@ -2,10 +2,7 @@ package de.tum.ar.researchplatform.model.request;
 
 import de.tum.ar.researchplatform.model.Field;
 import de.tum.ar.researchplatform.util.Constants;
-import lombok.AccessLevel;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
-import lombok.Setter;
+import lombok.*;
 
 import javax.validation.constraints.NotNull;
 import java.util.Date;
@@ -22,6 +19,7 @@ import java.util.List;
 @Setter
 @NotNull
 @NoArgsConstructor
+@AllArgsConstructor
 public class ProjectsRequestObject {
     private String name;
     private String chairName;

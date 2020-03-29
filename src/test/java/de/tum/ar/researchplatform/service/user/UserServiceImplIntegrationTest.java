@@ -1,6 +1,7 @@
 package de.tum.ar.researchplatform.service.user;
 
 import de.tum.ar.researchplatform.model.User;
+import org.junit.After;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -18,6 +19,11 @@ public class UserServiceImplIntegrationTest {
 
     @Autowired
     private UserService userService;
+
+    @After
+    public void breakdown() {
+        userService.deleteAll();
+    }
 
     // Base Test
     @Test

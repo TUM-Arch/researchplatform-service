@@ -31,8 +31,6 @@ public class User {
     @Indexed(unique = true)
     private String tumId;
 
-    private List<String> projectIds;
-
     private boolean admin;
 
     @Setter(AccessLevel.NONE)
@@ -42,15 +40,6 @@ public class User {
         this.createdAt = new Date();
         this.name = name;
         this.tumId = tumId;
-        this.projectIds = new ArrayList<>();
-        this.admin = admin;
-    }
-
-    public User(String name, String tumId, List<String> projectIds, boolean admin) {
-        this.createdAt = new Date();
-        this.name = name;
-        this.tumId = tumId;
-        this.projectIds = projectIds;
         this.admin = admin;
     }
 }

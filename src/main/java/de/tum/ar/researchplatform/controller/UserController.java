@@ -53,7 +53,7 @@ public class UserController {
      */
     @PostMapping(value = "/users", produces = MediaType.APPLICATION_JSON_VALUE)
     public User addUser(@Valid @RequestBody UsersRequestObject userDetails) {
-    	User user = new User(userDetails.getName(), userDetails.getTumId(), userDetails.getProjectIds(), userDetails.isAdmin());
+    	User user = new User(userDetails.getName(), userDetails.getTumId(), userDetails.isAdmin());
         return userService.saveOrUpdate(user);
     }
     
@@ -65,7 +65,6 @@ public class UserController {
     public User updateUser(@PathVariable String id, @Valid @RequestBody UsersRequestObject userDetails) {
     	User user = userService.findById(id);
     	user.setName(userDetails.getName());
-    	user.setProjectIds(userDetails.getProjectIds());
         user.setTumId(userDetails.getTumId());
         user.setAdmin(userDetails.isAdmin());
     	return userService.saveOrUpdate(user);

@@ -1,6 +1,7 @@
 package de.tum.ar.researchplatform.service.project;
 
 import de.tum.ar.researchplatform.model.Project;
+import org.junit.After;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -20,6 +21,11 @@ public class ProjectServiceImplIntegrationTest {
 
     @Autowired
     private ProjectService projectService;
+
+    @After
+    public void breakdown() {
+        projectService.deleteAll();
+    }
 
     // Base Test
     @Test
