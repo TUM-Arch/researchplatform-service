@@ -53,6 +53,17 @@ public class ProjectController {
     }
 
     /**
+     * Endpoint to get searched Projects by userid
+     * @return a list of matched Projects
+     */
+    @GetMapping(value = "/projects/{userid}/{nameString}", produces = MediaType.APPLICATION_JSON_VALUE)
+    public ProjectsResponseObject getSearchedProjectsByUserId(@PathVariable String userid, @PathVariable String nameString) {
+        ProjectsResponseObject projectsResponseObject = new ProjectsResponseObject();
+        projectsResponseObject.setProjectsList(projectService.findByNameForUser(userid, nameString));
+        return projectsResponseObject;
+    }
+
+    /**
      * Endpoint to add a Project
      * @return a single Project
      */

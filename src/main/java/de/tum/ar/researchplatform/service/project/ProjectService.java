@@ -23,6 +23,14 @@ public interface ProjectService {
     Project findById(String id);
 
     /**
+     * Find Projects for user with name
+     * @param userId
+     * @param name
+     * @return projects found
+     */
+    List<Project> findByNameForUser(String userId, String name);
+
+    /**
      * Save or Update Project object
      * @param project
      * @return Project object saved or updated

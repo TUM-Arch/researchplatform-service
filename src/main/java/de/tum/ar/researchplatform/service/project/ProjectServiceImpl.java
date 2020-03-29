@@ -10,6 +10,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
+import java.util.stream.Collectors;
 
 /**
  * Created by karthik on 9/10/2019
@@ -29,6 +30,15 @@ public class ProjectServiceImpl implements ProjectService {
     @Override
     public Project findById(String id) {
         return projectRepository.findById(id).orElse(null);
+    }
+
+    @Override
+    public List<Project> findByNameForUser(String userId, String name) {
+        List<Project> projects = projectRepository.findByUserId(userId);
+        List <Project> projectsFound = projects.stream()
+                .filter(project -> project.getName().contains(name))
+                .collect(Collectors.toList());
+        return projectsFound;
     }
 
     @Override
