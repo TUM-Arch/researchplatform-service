@@ -1,6 +1,7 @@
 package de.tum.ar.researchplatform.service.project;
 
 import de.tum.ar.researchplatform.model.Project;
+import de.tum.ar.researchplatform.util.Constants;
 import org.junit.After;
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -51,6 +52,27 @@ public class ProjectServiceImplIntegrationTest {
         List<Project> projects = projectService.findByNameForUser("user", "Abc");
         for(Project project : projects) {
             assertThat(project.getName()).isEqualTo("Abc");
+        }
+    }
+
+    @Test
+    public void testFilterByStatus() {
+        Project projectAbc = new Project();
+        projectAbc.setUserId("user");
+        projectAbc.setName("Abc");
+        projectAbc.setStatus(Constants.ProjectStatus.NOTSUBMITTED);
+        projectService.saveOrUpdate(projectAbc);
+
+        Project projectXyz = new Project();
+        projectXyz.setUserId("user");
+        projectXyz.setName("Abc");
+        projectXyz.setStatus(Constants.ProjectStatus.SUBMITTED);
+        projectService.saveOrUpdate(projectXyz);
+
+        List<Project> allProjects = projectService.findByUserId("user");
+        List<Project> projects = projectService.filterByStatus(allProjects, Constants.ProjectStatus.SUBMITTED);
+        for (Project project : projects) {
+            assertThat(project.getStatus()).isEqualTo(Constants.ProjectStatus.SUBMITTED);
         }
     }
 }

@@ -1,6 +1,7 @@
 package de.tum.ar.researchplatform.service.project;
 
 import de.tum.ar.researchplatform.model.Project;
+import de.tum.ar.researchplatform.util.Constants;
 
 import java.util.List;
 
@@ -67,4 +68,11 @@ public interface ProjectService {
      * @return All Project objects found
      */
     List<Project> findByUserId(String userId);
+
+    /**
+     * Filter projects by status
+     * @param projects
+     * @return
+     */
+    List<Project> filterByStatus(List<Project> projects, Constants.ProjectStatus status);
 }

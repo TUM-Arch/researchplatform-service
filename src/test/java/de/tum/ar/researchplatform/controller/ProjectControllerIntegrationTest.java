@@ -46,6 +46,7 @@ public class ProjectControllerIntegrationTest {
         project1.setUserId("Abc");
         Project project2 = new Project();
         project2.setUserId("Xyz");
+        project2.setStatus(Constants.ProjectStatus.NOTSUBMITTED);
         projectService.saveOrUpdate(project1);
         projectService.saveOrUpdate(project2);
     }
@@ -64,9 +65,24 @@ public class ProjectControllerIntegrationTest {
     }
 
     @Test
-    public void testGETwithHeader_OK() {
+    public void testProjectsForUser_GETwithHeader_OK() {
         given()
                 .header("userId", "Abc")
+                .when()
+                .request(Method.GET, endpoint)
+                .then()
+                .assertThat()
+                .statusCode(HttpStatus.SC_OK)
+                .and()
+                .assertThat()
+                .body("numberOfProjects", equalTo(1));
+    }
+
+    @Test
+    public void testProjectsForUserByStatus_GETwithHeader_OK() {
+        given()
+                .header("userId", "Xyz")
+                .header("status", "NOTSUBMITTED")
                 .when()
                 .request(Method.GET, endpoint)
                 .then()

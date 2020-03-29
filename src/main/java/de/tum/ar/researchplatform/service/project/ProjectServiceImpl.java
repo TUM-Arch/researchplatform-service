@@ -3,9 +3,8 @@ package de.tum.ar.researchplatform.service.project;
 
 import de.tum.ar.researchplatform.model.Project;
 import de.tum.ar.researchplatform.repository.ProjectRepository;
+import de.tum.ar.researchplatform.util.Constants;
 import lombok.extern.slf4j.Slf4j;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -76,5 +75,10 @@ public class ProjectServiceImpl implements ProjectService {
     @Override
     public List<Project> findByUserId(String userId) {
         return projectRepository.findByUserId(userId);
+    }
+
+    @Override
+    public List<Project> filterByStatus(List<Project> projects, Constants.ProjectStatus status) {
+        return projects.stream().filter(project -> project.getStatus().equals(status)).collect(Collectors.toList());
     }
 }

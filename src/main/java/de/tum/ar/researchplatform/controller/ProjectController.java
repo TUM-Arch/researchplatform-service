@@ -4,11 +4,14 @@ import de.tum.ar.researchplatform.model.Project;
 import de.tum.ar.researchplatform.model.request.ProjectsRequestObject;
 import de.tum.ar.researchplatform.model.response.ProjectsResponseObject;
 import de.tum.ar.researchplatform.service.project.ProjectServiceImpl;
+import de.tum.ar.researchplatform.util.Constants;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.MediaType;
 import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
+import java.util.ArrayList;
+import java.util.List;
 
 /**
  * Created by karthik on 9/11/2019
@@ -25,14 +28,20 @@ public class ProjectController {
      * @return ProjectsResponseObject as list of Projects
      */
     @GetMapping(value = "/projects", produces = MediaType.APPLICATION_JSON_VALUE)
-    public ProjectsResponseObject getAllProjects(@RequestHeader(value="userId" , required = false) String userId) {
+    public ProjectsResponseObject getAllProjects(@RequestHeader(value="userId" , required = false) String userId
+            , @RequestHeader(value="status" , required = false) Constants.ProjectStatus status) {
         ProjectsResponseObject projectsResponseObject = new ProjectsResponseObject();
+        List<Project> projectList = new ArrayList<>();
         if(userId == null || userId.isBlank()) {
-            projectsResponseObject.setProjectsList(projectService.listAll());
+            projectList = projectService.listAll();
         }
         else {
-            projectsResponseObject.setProjectsList(projectService.findByUserId(userId));
+            projectList = projectService.findByUserId(userId);
         }
+        if(status != null) {
+            projectList = projectService.filterByStatus(projectList, status);
+        }
+        projectsResponseObject.setProjectsList(projectList);
         return projectsResponseObject;
     }
 
