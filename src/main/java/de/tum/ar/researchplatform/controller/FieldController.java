@@ -26,7 +26,7 @@ public class FieldController {
      */
     @GetMapping(value = "/fields", produces = MediaType.APPLICATION_JSON_VALUE)
     public FieldsResponseObject getFields(
-            @RequestHeader(value="Active" ,required = false, defaultValue = "true") boolean isActive) {
+            @RequestHeader(value="Active" , required = false, defaultValue = "true") boolean isActive) {
         FieldsResponseObject fieldsResponseObject = new FieldsResponseObject();
         if(isActive) {
             fieldsResponseObject.setFieldsList(fieldService.listAllActive());

@@ -72,7 +72,7 @@ public class UserController {
     }
     
     /**
-     * Endpoint to delete a User
+     * Endpoint to delete all Users
      */
     @DeleteMapping(value = "/users")
     public void deleteAllUsers() {

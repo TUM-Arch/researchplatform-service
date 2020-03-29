@@ -25,9 +25,14 @@ public class ProjectController {
      * @return ProjectsResponseObject as list of Projects
      */
     @GetMapping(value = "/projects", produces = MediaType.APPLICATION_JSON_VALUE)
-    public ProjectsResponseObject getAllProjects() {
+    public ProjectsResponseObject getAllProjects(@RequestHeader(value="userId" , required = false) String userId) {
         ProjectsResponseObject projectsResponseObject = new ProjectsResponseObject();
-        projectsResponseObject.setProjectsList(projectService.listAll());
+        if(userId == null || userId.isBlank()) {
+            projectsResponseObject.setProjectsList(projectService.listAll());
+        }
+        else {
+            projectsResponseObject.setProjectsList(projectService.findByUserId(userId));
+        }
         return projectsResponseObject;
     }
 
@@ -35,32 +40,10 @@ public class ProjectController {
      * Endpoint to get a single Project by id
      * @return a single Project
      */
-    @GetMapping(value = "/project/{id}", produces = MediaType.APPLICATION_JSON_VALUE)
+    @GetMapping(value = "/projects/{id}", produces = MediaType.APPLICATION_JSON_VALUE)
     public Project getProjectById(@PathVariable String id) {
         Project project = projectService.findById(id);
         return project;
-    }
-
-    /**
-     * Endpoint to get Projects by userid
-     * @return a single Project
-     */
-    @GetMapping(value = "/projects/{userid}", produces = MediaType.APPLICATION_JSON_VALUE)
-    public ProjectsResponseObject getProjectByUserId(@PathVariable String userid) {
-        ProjectsResponseObject projectsResponseObject = new ProjectsResponseObject();
-        projectsResponseObject.setProjectsList(projectService.findByUserId(userid));
-        return projectsResponseObject;
-    }
-
-    /**
-     * Endpoint to get searched Projects by userid
-     * @return a list of matched Projects
-     */
-    @GetMapping(value = "/projects/{userid}/{nameString}", produces = MediaType.APPLICATION_JSON_VALUE)
-    public ProjectsResponseObject getSearchedProjectsByUserId(@PathVariable String userid, @PathVariable String nameString) {
-        ProjectsResponseObject projectsResponseObject = new ProjectsResponseObject();
-        projectsResponseObject.setProjectsList(projectService.findByNameForUser(userid, nameString));
-        return projectsResponseObject;
     }
 
     /**
@@ -97,7 +80,7 @@ public class ProjectController {
     }
 
     /**
-     * Endpoint to delete a Project
+     * Endpoint to delete all Projects
      */
     @DeleteMapping(value = "/projects")
     public void deleteAllProjects() {
