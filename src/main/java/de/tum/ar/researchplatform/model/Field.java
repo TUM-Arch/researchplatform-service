@@ -5,7 +5,6 @@ package de.tum.ar.researchplatform.model;
  */
 
 import de.tum.ar.researchplatform.model.subfields.SubField;
-import de.tum.ar.researchplatform.model.subfields.TextField;
 import de.tum.ar.researchplatform.util.Constants;
 import lombok.*;
 import org.springframework.data.annotation.Id;

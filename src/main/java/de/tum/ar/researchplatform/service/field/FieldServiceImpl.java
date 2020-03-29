@@ -3,8 +3,6 @@ package de.tum.ar.researchplatform.service.field;
 import de.tum.ar.researchplatform.model.Field;
 import de.tum.ar.researchplatform.repository.FieldRepository;
 import lombok.extern.slf4j.Slf4j;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 

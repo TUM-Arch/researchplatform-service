@@ -2,7 +2,6 @@ package de.tum.ar.researchplatform.repository;
 
 import de.tum.ar.researchplatform.model.Project;
 import org.springframework.data.mongodb.repository.MongoRepository;
-import org.springframework.data.rest.core.annotation.RestResource;
 
 import java.util.List;
 
