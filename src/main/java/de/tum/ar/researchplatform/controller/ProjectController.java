@@ -25,6 +25,18 @@ public class ProjectController {
     private ProjectServiceImpl projectService;
 
     /**
+     * Endpoint to get all Projects
+     * @return ProjectsResponseObject as list of Projects
+     */
+    @GetMapping(value = "/projects", produces = MediaType.APPLICATION_JSON_VALUE)
+    public ProjectsResponseObject getAllProjects() {
+        ProjectsResponseObject projectsResponseObject = new ProjectsResponseObject();
+        List<Project> projectList = projectService.listAll();
+        projectsResponseObject.setProjectsList(projectList);
+        return projectsResponseObject;
+    }
+
+    /**
      * Endpoint to get all Projects for User
      * @return ProjectsResponseObject as list of Projects
      */
@@ -47,7 +59,7 @@ public class ProjectController {
      * Endpoint to get all Projects for an admin
      * @return ProjectsResponseObject as list of Projects
      */
-    @GetMapping(value = "/projects", produces = MediaType.APPLICATION_JSON_VALUE)
+    @GetMapping(value = "/projects/manage", produces = MediaType.APPLICATION_JSON_VALUE)
     public ProjectsResponseObject getAllProjectsForAdmin() {
         ProjectsResponseObject projectsResponseObject = new ProjectsResponseObject();
         List<Project> projectList = new ArrayList<>();
