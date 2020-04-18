@@ -29,6 +29,9 @@ public class Project {
     private String name;
     private String chairName;
     private String description;
+
+    private String imageId;
+
     private String userId;
 
     private List<String> tags;
@@ -47,6 +50,7 @@ public class Project {
         this.name = "";
         this.chairName = "";
         this.description = "";
+        this.imageId = "";
         this.tags = new ArrayList<>();
         this.fields = new ArrayList<>();
         Calendar calendar = Calendar.getInstance();
@@ -54,13 +58,14 @@ public class Project {
         this.yearOfCreation = calendar.get(Calendar.YEAR);
     }
 
-    public Project(String userId, Constants.ProjectStatus status, String name, String chairName, String description, List<String> tags, List<Field> fields) {
+    public Project(String userId, Constants.ProjectStatus status, String name, String chairName, String description, String imageId, List<String> tags, List<Field> fields) {
         this.createdAt = new Date();
         this.userId = userId;
         this.status = status;
         this.name = name;
         this.chairName = chairName;
         this.description = description;
+        this.imageId = imageId;
         this.tags = tags;
         this.fields = fields;
         Calendar calendar = Calendar.getInstance();

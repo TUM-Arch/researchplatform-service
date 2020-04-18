@@ -108,6 +108,7 @@ public class ProjectControllerIntegrationTest {
                 "Name"
                 , "ChairName"
                 , "Description"
+                , "testImageId"
                 , "UserId"
                 , new ArrayList<String>()
                 , new ArrayList<Field>()

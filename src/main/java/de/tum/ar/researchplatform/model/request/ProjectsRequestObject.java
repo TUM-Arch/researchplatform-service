@@ -23,6 +23,7 @@ public class ProjectsRequestObject {
     private String name;
     private String chairName;
     private String description;
+    private String imageId;
     private String userId;
     private List<String> tags;
     private List<Field> fields;

@@ -66,6 +66,7 @@ public class ProjectController {
                 projectDetails.getName(),
                 projectDetails.getChairName(),
                 projectDetails.getDescription(),
+                projectDetails.getImageId(),
                 projectDetails.getTags(),
                 projectDetails.getFields());
         return projectService.saveOrUpdate(project);
@@ -81,6 +82,7 @@ public class ProjectController {
         project.setName(projectDetails.getName());
         project.setChairName(projectDetails.getChairName());
         project.setDescription(projectDetails.getDescription());
+        project.setImageId(projectDetails.getImageId());
         project.setUserId(projectDetails.getUserId());
         project.setTags(projectDetails.getTags());
         project.setFields(projectDetails.getFields());
