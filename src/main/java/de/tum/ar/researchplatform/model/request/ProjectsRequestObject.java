@@ -5,7 +5,6 @@ import de.tum.ar.researchplatform.util.Constants;
 import lombok.*;
 
 import javax.validation.constraints.NotNull;
-import java.util.Date;
 import java.util.List;
 
 /**
@@ -24,6 +23,7 @@ public class ProjectsRequestObject {
     private String name;
     private String chairName;
     private String description;
+    private String imageId;
     private String userId;
     private List<String> tags;
     private List<Field> fields;

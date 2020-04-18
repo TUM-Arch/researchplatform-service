@@ -18,19 +18,6 @@ public final class Constants {
      * Enums
      */
 
-    //Enum for Field object
-    public enum FieldType {
-        DATE,
-        TIME,
-        RADIO,
-        SELECT,
-        CHECKBOX,
-        SWITCH,
-        TEXT,
-        IMAGE,
-        MULTITEXT
-    }
-
     //Enum for Project object
     public enum ProjectStatus {
         NOTSUBMITTED,

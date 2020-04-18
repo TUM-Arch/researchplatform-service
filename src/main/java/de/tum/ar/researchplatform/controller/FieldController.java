@@ -1,6 +1,5 @@
 package de.tum.ar.researchplatform.controller;
 
-import de.tum.ar.researchplatform.model.Field;
 import de.tum.ar.researchplatform.model.response.FieldsResponseObject;
 import de.tum.ar.researchplatform.service.field.FieldServiceImpl;
 import org.springframework.beans.factory.annotation.Autowired;
