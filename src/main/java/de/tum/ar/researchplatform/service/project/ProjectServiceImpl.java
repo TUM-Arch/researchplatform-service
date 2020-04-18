@@ -11,8 +11,7 @@ import org.springframework.stereotype.Service;
 import java.util.List;
 import java.util.stream.Collectors;
 
-import static de.tum.ar.researchplatform.util.Constants.ProjectStatus.NOTSUBMITTED;
-import static de.tum.ar.researchplatform.util.Constants.ProjectStatus.SUBMITTED;
+import static de.tum.ar.researchplatform.util.Constants.ProjectStatus.*;
 
 /**
  * Created by karthik on 9/10/2019
@@ -83,6 +82,11 @@ public class ProjectServiceImpl implements ProjectService {
     @Override
     public List<Project> filterByStatus(List<Project> projects, Constants.ProjectStatus status) {
         return projects.stream().filter(project -> project.getStatus().equals(status)).collect(Collectors.toList());
+    }
+
+    @Override
+    public List<Project> filterBySubmittedAndApproved(List<Project> projects) {
+        return projects.stream().filter(project -> project.getStatus().equals(SUBMITTED) || project.getStatus().equals(APPROVED)).collect(Collectors.toList());
     }
 
     @Override

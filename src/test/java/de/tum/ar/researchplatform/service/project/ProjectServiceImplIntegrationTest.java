@@ -11,6 +11,8 @@ import org.springframework.test.context.junit4.SpringRunner;
 
 import java.util.List;
 
+import static de.tum.ar.researchplatform.util.Constants.ProjectStatus.APPROVED;
+import static de.tum.ar.researchplatform.util.Constants.ProjectStatus.SUBMITTED;
 import static org.assertj.core.api.Assertions.*;
 
 /**
@@ -66,13 +68,34 @@ public class ProjectServiceImplIntegrationTest {
         Project projectXyz = new Project();
         projectXyz.setUserId("user");
         projectXyz.setName("Abc");
-        projectXyz.setStatus(Constants.ProjectStatus.SUBMITTED);
+        projectXyz.setStatus(SUBMITTED);
         projectService.saveOrUpdate(projectXyz);
 
         List<Project> allProjects = projectService.findByUserId("user");
-        List<Project> projects = projectService.filterByStatus(allProjects, Constants.ProjectStatus.SUBMITTED);
+        List<Project> projects = projectService.filterByStatus(allProjects, SUBMITTED);
         for (Project project : projects) {
-            assertThat(project.getStatus()).isEqualTo(Constants.ProjectStatus.SUBMITTED);
+            assertThat(project.getStatus()).isEqualTo(SUBMITTED);
+        }
+    }
+
+    @Test
+    public void testFilterBySubmittedAndApproved() {
+        Project projectAbc = new Project();
+        projectAbc.setStatus(Constants.ProjectStatus.NOTSUBMITTED);
+        projectService.saveOrUpdate(projectAbc);
+
+        Project projectXyz = new Project();
+        projectXyz.setStatus(SUBMITTED);
+        projectService.saveOrUpdate(projectXyz);
+
+        Project projectIjk = new Project();
+        projectIjk.setStatus(Constants.ProjectStatus.APPROVED);
+        projectService.saveOrUpdate(projectIjk);
+
+        List<Project> allProjects = projectService.listAll();
+        List<Project> projects = projectService.filterBySubmittedAndApproved(allProjects);
+        for (Project project : projects) {
+            assertThat(project.getStatus()).isIn(SUBMITTED, APPROVED);
         }
     }
 
@@ -81,7 +104,7 @@ public class ProjectServiceImplIntegrationTest {
         Project newProject = new Project();
         newProject = projectService.saveOrUpdate(newProject);
         Project submittedProject = projectService.advanceWorkflow(newProject.getId());
-        assertThat(submittedProject.getStatus()).isEqualTo(Constants.ProjectStatus.SUBMITTED);
+        assertThat(submittedProject.getStatus()).isEqualTo(SUBMITTED);
     }
 
     @Test

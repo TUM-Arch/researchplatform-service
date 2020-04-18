@@ -25,23 +25,33 @@ public class ProjectController {
     private ProjectServiceImpl projectService;
 
     /**
-     * Endpoint to get all Projects
+     * Endpoint to get all Projects for User
      * @return ProjectsResponseObject as list of Projects
      */
-    @GetMapping(value = "/projects", produces = MediaType.APPLICATION_JSON_VALUE)
-    public ProjectsResponseObject getAllProjects(@RequestHeader(value="userId" , required = false) String userId
+    @GetMapping(value = "/projects/my", produces = MediaType.APPLICATION_JSON_VALUE)
+    public ProjectsResponseObject getAllProjectsForUser(@RequestHeader(value="userId" , required = true) String userId
             , @RequestHeader(value="status" , required = false) Constants.ProjectStatus status) {
         ProjectsResponseObject projectsResponseObject = new ProjectsResponseObject();
         List<Project> projectList = new ArrayList<>();
-        if(userId == null || userId.isBlank()) {
-            projectList = projectService.listAll();
-        }
-        else {
+        if(userId != null || !userId.isBlank()) {
             projectList = projectService.findByUserId(userId);
         }
         if(status != null) {
             projectList = projectService.filterByStatus(projectList, status);
         }
+        projectsResponseObject.setProjectsList(projectList);
+        return projectsResponseObject;
+    }
+
+    /**
+     * Endpoint to get all Projects for an admin
+     * @return ProjectsResponseObject as list of Projects
+     */
+    @GetMapping(value = "/projects", produces = MediaType.APPLICATION_JSON_VALUE)
+    public ProjectsResponseObject getAllProjectsForAdmin() {
+        ProjectsResponseObject projectsResponseObject = new ProjectsResponseObject();
+        List<Project> projectList = new ArrayList<>();
+        projectList = projectService.filterBySubmittedAndApproved(projectList);
         projectsResponseObject.setProjectsList(projectList);
         return projectsResponseObject;
     }

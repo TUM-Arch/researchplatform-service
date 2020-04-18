@@ -77,6 +77,13 @@ public interface ProjectService {
     List<Project> filterByStatus(List<Project> projects, Constants.ProjectStatus status);
 
     /**
+     * Filter projects by submitted and approved
+     * @param projects
+     * @return
+     */
+    List<Project> filterBySubmittedAndApproved(List<Project> projects);
+
+    /**
      * Advance project workflow
      * @return updated project
      */
