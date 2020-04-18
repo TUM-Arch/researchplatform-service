@@ -1,5 +1,6 @@
 package de.tum.ar.researchplatform.service.image;
 
+import de.tum.ar.researchplatform.exception.CustomNotFoundException;
 import de.tum.ar.researchplatform.model.Image;
 import org.springframework.web.multipart.MultipartFile;
 
@@ -15,7 +16,7 @@ public interface ImageService {
      * @param id
      * @return Image object found
      */
-    Image findById(String id);
+    Image findById(String id) throws CustomNotFoundException;
 
     /**
      * Save or Update Image object
@@ -61,5 +62,5 @@ public interface ImageService {
      * @param id
      * @return updated ImageId
      */
-    Image updateImage(MultipartFile file, String id) throws IOException;
+    Image updateImage(MultipartFile file, String id) throws IOException, CustomNotFoundException;
 }

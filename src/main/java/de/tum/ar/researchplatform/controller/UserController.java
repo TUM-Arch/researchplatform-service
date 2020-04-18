@@ -1,5 +1,6 @@
 package de.tum.ar.researchplatform.controller;
 
+import de.tum.ar.researchplatform.exception.CustomNotFoundException;
 import de.tum.ar.researchplatform.model.User;
 import de.tum.ar.researchplatform.model.request.UsersRequestObject;
 import de.tum.ar.researchplatform.model.response.UsersResponseObject;
@@ -42,7 +43,7 @@ public class UserController {
      * @return a single User
      */
     @GetMapping(value = "/users/{id}", produces = MediaType.APPLICATION_JSON_VALUE)
-    public User getUserById(@PathVariable String id) {
+    public User getUserById(@PathVariable String id) throws CustomNotFoundException {
         User user = userService.findById(id);
         return user;
     }
@@ -62,7 +63,7 @@ public class UserController {
      * @return a single User
      */
     @PutMapping(value = "/users/{id}", produces = MediaType.APPLICATION_JSON_VALUE)
-    public User updateUser(@PathVariable String id, @Valid @RequestBody UsersRequestObject userDetails) {
+    public User updateUser(@PathVariable String id, @Valid @RequestBody UsersRequestObject userDetails) throws CustomNotFoundException {
     	User user = userService.findById(id);
     	user.setName(userDetails.getName());
         user.setTumId(userDetails.getTumId());

@@ -1,5 +1,6 @@
 package de.tum.ar.researchplatform.service.project;
 
+import de.tum.ar.researchplatform.exception.CustomNotFoundException;
 import de.tum.ar.researchplatform.model.Project;
 import de.tum.ar.researchplatform.util.Constants;
 
@@ -21,7 +22,7 @@ public interface ProjectService {
      * @param id
      * @return Project object found
      */
-    Project findById(String id);
+    Project findById(String id) throws CustomNotFoundException;
 
     /**
      * Find Projects for user with name
@@ -87,5 +88,5 @@ public interface ProjectService {
      * Advance project workflow
      * @return updated project
      */
-    Project advanceWorkflow(String id);
+    Project advanceWorkflow(String id) throws CustomNotFoundException;
 }

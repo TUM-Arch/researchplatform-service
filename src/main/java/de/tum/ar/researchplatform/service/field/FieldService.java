@@ -1,5 +1,6 @@
 package de.tum.ar.researchplatform.service.field;
 
+import de.tum.ar.researchplatform.exception.CustomNotFoundException;
 import de.tum.ar.researchplatform.model.Field;
 
 import java.util.List;
@@ -26,7 +27,7 @@ public interface FieldService {
      * @param id
      * @return Field object found
      */
-    Field findById(String id);
+    Field findById(String id) throws CustomNotFoundException;
 
     /**
      * Save or Update Field object

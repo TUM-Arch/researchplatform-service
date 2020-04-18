@@ -1,5 +1,6 @@
 package de.tum.ar.researchplatform.service.image;
 
+import de.tum.ar.researchplatform.exception.CustomNotFoundException;
 import de.tum.ar.researchplatform.model.Image;
 import de.tum.ar.researchplatform.repository.ImageRepository;
 import de.tum.ar.researchplatform.repository.ProjectRepository;
@@ -25,8 +26,12 @@ public class ImageServiceImpl implements ImageService{
     private ProjectRepository projectRepository;
 
     @Override
-    public Image findById(String id) {
-        return imageRepository.findById(id).orElse(null);
+    public Image findById(String id) throws CustomNotFoundException {
+        Image image = imageRepository.findById(id).orElse(null);
+        if(image == null) {
+            throw new CustomNotFoundException("Not found");
+        }
+        return image;
     }
 
     @Override
@@ -70,7 +75,7 @@ public class ImageServiceImpl implements ImageService{
     }
 
     @Override
-    public Image updateImage(MultipartFile file, String id) throws IOException {
+    public Image updateImage(MultipartFile file, String id) throws IOException, CustomNotFoundException {
         Image image = this.findById(id);
         image.setImage( new Binary(BsonBinarySubType.BINARY, file.getBytes()));
         image = this.saveOrUpdate(image);

@@ -1,5 +1,6 @@
 package de.tum.ar.researchplatform.service.field;
 
+import de.tum.ar.researchplatform.exception.CustomNotFoundException;
 import de.tum.ar.researchplatform.model.Field;
 import de.tum.ar.researchplatform.repository.FieldRepository;
 import lombok.extern.slf4j.Slf4j;
@@ -37,8 +38,12 @@ public class FieldServiceImpl implements FieldService {
     }
 
     @Override
-    public Field findById(String id) {
-        return fieldRepository.findById(id).orElse(null);
+    public Field findById(String id) throws CustomNotFoundException {
+        Field  field = fieldRepository.findById(id).orElse(null);
+        if(field == null) {
+            throw new CustomNotFoundException("Not found");
+        }
+        return field;
     }
 
     @Override

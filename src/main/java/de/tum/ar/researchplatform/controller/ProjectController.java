@@ -1,5 +1,6 @@
 package de.tum.ar.researchplatform.controller;
 
+import de.tum.ar.researchplatform.exception.CustomNotFoundException;
 import de.tum.ar.researchplatform.model.Project;
 import de.tum.ar.researchplatform.model.request.ProjectsRequestObject;
 import de.tum.ar.researchplatform.model.response.ProjectWorkflowAdvancedResponseObject;
@@ -73,7 +74,7 @@ public class ProjectController {
      * @return a single Project
      */
     @GetMapping(value = "/projects/{id}", produces = MediaType.APPLICATION_JSON_VALUE)
-    public Project getProjectById(@PathVariable String id) {
+    public Project getProjectById(@PathVariable String id) throws CustomNotFoundException {
         Project project = projectService.findById(id);
         return project;
     }
@@ -99,7 +100,7 @@ public class ProjectController {
      * @return a single Project
      */
     @PutMapping(value = "/projects/{id}", produces = MediaType.APPLICATION_JSON_VALUE)
-    public Project updateProject(@PathVariable String id, @Valid @RequestBody ProjectsRequestObject projectDetails) {
+    public Project updateProject(@PathVariable String id, @Valid @RequestBody ProjectsRequestObject projectDetails) throws CustomNotFoundException {
         Project project = projectService.findById(id);
         project.setName(projectDetails.getName());
         project.setChairName(projectDetails.getChairName());
@@ -132,7 +133,7 @@ public class ProjectController {
      * @return a single Project
      */
     @PutMapping(value = "/projects/submit/{id}", produces = MediaType.APPLICATION_JSON_VALUE)
-    public ProjectWorkflowAdvancedResponseObject submitProject(@PathVariable String id) {
+    public ProjectWorkflowAdvancedResponseObject submitProject(@PathVariable String id) throws CustomNotFoundException {
         ProjectWorkflowAdvancedResponseObject responseObject = new ProjectWorkflowAdvancedResponseObject();
         Project project = projectService.advanceWorkflow(id);
         responseObject.setId(project.getId());
@@ -145,7 +146,7 @@ public class ProjectController {
      * @return a single Project
      */
     @PutMapping(value = "/projects/approve/{id}", produces = MediaType.APPLICATION_JSON_VALUE)
-    public ProjectWorkflowAdvancedResponseObject approveProject(@PathVariable String id) {
+    public ProjectWorkflowAdvancedResponseObject approveProject(@PathVariable String id) throws CustomNotFoundException {
         ProjectWorkflowAdvancedResponseObject responseObject = new ProjectWorkflowAdvancedResponseObject();
         Project project = projectService.advanceWorkflow(id);
         responseObject.setId(project.getId());

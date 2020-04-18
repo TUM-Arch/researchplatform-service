@@ -1,5 +1,6 @@
 package de.tum.ar.researchplatform.service.user;
 
+import de.tum.ar.researchplatform.exception.CustomNotFoundException;
 import de.tum.ar.researchplatform.model.User;
 
 import java.util.List;
@@ -20,7 +21,7 @@ public interface UserService {
      * @param id
      * @return User object found
      */
-    User findById(String id);
+    User findById(String id) throws CustomNotFoundException;
 
     /**
      * Find User object by name
@@ -65,5 +66,5 @@ public interface UserService {
      * @param tumId
      * @return User object found
      */
-    User findByTumId(String tumId);
+    User findByTumId(String tumId) throws CustomNotFoundException;
 }

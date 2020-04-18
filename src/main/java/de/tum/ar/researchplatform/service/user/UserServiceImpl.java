@@ -1,5 +1,6 @@
 package de.tum.ar.researchplatform.service.user;
 
+import de.tum.ar.researchplatform.exception.CustomNotFoundException;
 import de.tum.ar.researchplatform.model.User;
 import de.tum.ar.researchplatform.repository.UserRepository;
 import lombok.extern.slf4j.Slf4j;
@@ -24,8 +25,12 @@ public class UserServiceImpl implements UserService{
     }
 
     @Override
-    public User findById(String id) {
-        return userRepository.findById(id).orElse(null);
+    public User findById(String id) throws CustomNotFoundException {
+        User user = userRepository.findById(id).orElse(null);
+        if(user == null) {
+            throw new CustomNotFoundException("Not found");
+        }
+        return user;
     }
 
     @Override
@@ -66,7 +71,11 @@ public class UserServiceImpl implements UserService{
     }
 
     @Override
-    public User findByTumId(String tumId) {
-        return userRepository.findByTumId(tumId);
+    public User findByTumId(String tumId) throws CustomNotFoundException {
+        User user = userRepository.findByTumId(tumId);
+        if(user == null) {
+            throw new CustomNotFoundException("Not found");
+        }
+        return user;
     }
 }

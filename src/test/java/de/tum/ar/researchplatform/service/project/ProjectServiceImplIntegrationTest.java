@@ -1,5 +1,6 @@
 package de.tum.ar.researchplatform.service.project;
 
+import de.tum.ar.researchplatform.exception.CustomNotFoundException;
 import de.tum.ar.researchplatform.model.Project;
 import de.tum.ar.researchplatform.util.Constants;
 import org.junit.After;
@@ -100,7 +101,7 @@ public class ProjectServiceImplIntegrationTest {
     }
 
     @Test
-    public void testAdvanceWorkflowToSubmitted() {
+    public void testAdvanceWorkflowToSubmitted() throws CustomNotFoundException {
         Project newProject = new Project();
         newProject = projectService.saveOrUpdate(newProject);
         Project submittedProject = projectService.advanceWorkflow(newProject.getId());
@@ -108,7 +109,7 @@ public class ProjectServiceImplIntegrationTest {
     }
 
     @Test
-    public void testAdvanceWorkflowToApproved() {
+    public void testAdvanceWorkflowToApproved() throws CustomNotFoundException {
         Project newProject = new Project();
         newProject = projectService.saveOrUpdate(newProject);
         // Advance to Submitted

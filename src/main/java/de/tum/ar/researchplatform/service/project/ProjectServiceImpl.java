@@ -1,6 +1,7 @@
 package de.tum.ar.researchplatform.service.project;
 
 
+import de.tum.ar.researchplatform.exception.CustomNotFoundException;
 import de.tum.ar.researchplatform.model.Project;
 import de.tum.ar.researchplatform.repository.ProjectRepository;
 import de.tum.ar.researchplatform.util.Constants;
@@ -29,8 +30,12 @@ public class ProjectServiceImpl implements ProjectService {
     }
 
     @Override
-    public Project findById(String id) {
-        return projectRepository.findById(id).orElse(null);
+    public Project findById(String id) throws CustomNotFoundException {
+        Project project = projectRepository.findById(id).orElse(null);
+        if(project == null) {
+            throw new CustomNotFoundException("Not found");
+        }
+        return project;
     }
 
     @Override
@@ -90,7 +95,7 @@ public class ProjectServiceImpl implements ProjectService {
     }
 
     @Override
-    public Project advanceWorkflow(String id) {
+    public Project advanceWorkflow(String id) throws CustomNotFoundException {
         Project project = this.findById(id);
         if(project != null) {
             switch(project.getStatus()) {

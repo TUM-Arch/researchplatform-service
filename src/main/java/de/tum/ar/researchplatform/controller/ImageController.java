@@ -1,5 +1,6 @@
 package de.tum.ar.researchplatform.controller;
 
+import de.tum.ar.researchplatform.exception.CustomNotFoundException;
 import de.tum.ar.researchplatform.model.Image;
 import de.tum.ar.researchplatform.service.image.ImageService;
 import de.tum.ar.researchplatform.service.project.ProjectService;
@@ -26,7 +27,7 @@ public class ImageController {
     private ProjectService projectService;
 
     @GetMapping(value = "/images/{id}", produces = MediaType.APPLICATION_JSON_VALUE)
-    public String getImage(@PathVariable String id) {
+    public String getImage(@PathVariable String id) throws CustomNotFoundException {
         Image image = imageService.findById(id);
         if(image != null && image.getImage() != null) {
             return Base64.getEncoder().encodeToString(image.getImage().getData());
@@ -42,7 +43,7 @@ public class ImageController {
 
     @PutMapping(value = "/images/{id}")
     public Image updateImage(@PathVariable String id, @RequestParam("image") MultipartFile image)
-            throws IOException {
+            throws IOException, CustomNotFoundException {
         return imageService.updateImage(image, id);
     }
 

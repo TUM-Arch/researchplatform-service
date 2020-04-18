@@ -60,6 +60,15 @@ public class UserControllerIntegrationTest {
     }
 
     @Test
+    public void testGET_NOT_FOUND() {
+        when()
+                .request(Method.GET, endpoint + "/non_existing_id")
+                .then()
+                .assertThat()
+                .statusCode(HttpStatus.SC_NOT_FOUND);
+    }
+
+    @Test
     public void testDELETE_OK() {
         when()
                 .request(Method.DELETE, endpoint)

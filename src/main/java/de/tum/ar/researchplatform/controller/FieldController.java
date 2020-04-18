@@ -1,5 +1,6 @@
 package de.tum.ar.researchplatform.controller;
 
+import de.tum.ar.researchplatform.exception.CustomNotFoundException;
 import de.tum.ar.researchplatform.model.Field;
 import de.tum.ar.researchplatform.model.request.FieldsRequestObject;
 import de.tum.ar.researchplatform.model.response.FieldsResponseObject;
@@ -42,7 +43,7 @@ public class FieldController {
      * @return a single Field
      */
     @GetMapping(value = "/fields/{id}", produces = MediaType.APPLICATION_JSON_VALUE)
-    public Field getFieldById(@PathVariable String id) {
+    public Field getFieldById(@PathVariable String id) throws CustomNotFoundException {
         Field field = fieldService.findById(id);
         return field;
     }
@@ -68,7 +69,7 @@ public class FieldController {
      * @return a single Field
      */
     @PutMapping(value = "/fields/{id}", produces = MediaType.APPLICATION_JSON_VALUE)
-    public Field updateField(@PathVariable String id, @Valid @RequestBody FieldsRequestObject fieldDetails) {
+    public Field updateField(@PathVariable String id, @Valid @RequestBody FieldsRequestObject fieldDetails) throws CustomNotFoundException {
         Field field = fieldService.findById(id);
         field.setNameEn(fieldDetails.getNameEn());
         field.setNameDe(fieldDetails.getNameDe());
