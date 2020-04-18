@@ -1,13 +1,14 @@
 package de.tum.ar.researchplatform.controller;
 
 import de.tum.ar.researchplatform.model.Field;
+import de.tum.ar.researchplatform.model.request.FieldsRequestObject;
 import de.tum.ar.researchplatform.service.field.FieldService;
 import io.restassured.RestAssured;
+import io.restassured.http.ContentType;
 import io.restassured.http.Method;
 import org.apache.http.HttpStatus;
 import org.junit.After;
 import org.junit.Before;
-import org.junit.Ignore;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -57,9 +58,7 @@ public class FieldControllerIntegrationTest {
     }
 
     @Test
-    @Ignore
     public void testDELETE_OK() {
-        //TODO: Remove Ignore annotation after adding endpoint
         when()
                 .request(Method.DELETE, endpoint)
                 .then()
@@ -69,6 +68,21 @@ public class FieldControllerIntegrationTest {
 
     @Test
     public void testPOST_OK() {
-        //TODO: Add test
+        FieldsRequestObject fieldsRequestObject = new FieldsRequestObject(
+                "NameEn"
+                , "NameDe"
+                , "ValueEn"
+                , "ValueDe"
+                , "Desc"
+                , false
+                , false);
+
+        with()
+                .body(fieldsRequestObject)
+                .contentType(ContentType.JSON)
+                .when()
+                .request(Method.POST, endpoint)
+                .then()
+                .assertThat().statusCode(HttpStatus.SC_OK);
     }
 }

@@ -36,10 +36,12 @@ public class Field {
     @Setter(AccessLevel.NONE)
     private Date createdAt;
 
-    public Field(String nameEn, String nameDe, String description, boolean required, boolean active) {
+    public Field(String nameEn, String nameDe, String valueEn, String valueDe, String description, boolean required, boolean active) {
         this.createdAt = new Date();
         this.nameEn = nameEn;
         this.nameDe = nameDe;
+        this.valueEn = valueEn;
+        this.valueDe = valueDe;
         this.description = description;
         this.required = required;
         this.active = active;

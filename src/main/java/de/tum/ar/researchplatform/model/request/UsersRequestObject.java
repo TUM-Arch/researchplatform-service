@@ -15,13 +15,11 @@ import javax.validation.constraints.NotNull;
  */
 @Getter
 @Setter
+@NotNull
 @NoArgsConstructor
 @AllArgsConstructor
 public class UsersRequestObject {
-	@NotNull
 	private String name;
-    @NotNull
     private String tumId;
-    @NotNull
     private boolean admin;
 }

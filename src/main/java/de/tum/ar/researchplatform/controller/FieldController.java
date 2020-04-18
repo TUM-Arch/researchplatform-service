@@ -1,13 +1,14 @@
 package de.tum.ar.researchplatform.controller;
 
+import de.tum.ar.researchplatform.model.Field;
+import de.tum.ar.researchplatform.model.request.FieldsRequestObject;
 import de.tum.ar.researchplatform.model.response.FieldsResponseObject;
 import de.tum.ar.researchplatform.service.field.FieldServiceImpl;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.MediaType;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.RequestHeader;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
+
+import javax.validation.Valid;
 
 /**
  * Created by karthik on 9/10/2019
@@ -34,5 +35,64 @@ public class FieldController {
             fieldsResponseObject.setFieldsList(fieldService.listAll());
         }
         return fieldsResponseObject;
+    }
+
+    /**
+     * Endpoint to get a single Field by id
+     * @return a single Field
+     */
+    @GetMapping(value = "/fields/{id}", produces = MediaType.APPLICATION_JSON_VALUE)
+    public Field getFieldById(@PathVariable String id) {
+        Field field = fieldService.findById(id);
+        return field;
+    }
+
+    /**
+     * Endpoint to add a Field
+     * @return a single Field
+     */
+    @PostMapping(value = "/fields", produces = MediaType.APPLICATION_JSON_VALUE)
+    public Field addField(@Valid @RequestBody FieldsRequestObject fieldDetails) {
+        Field field = new Field(fieldDetails.getNameEn(),
+                fieldDetails.getNameDe(),
+                fieldDetails.getValueEn(),
+                fieldDetails.getValueDe(),
+                fieldDetails.getDescription(),
+                fieldDetails.isActive(),
+                fieldDetails.isRequired());
+        return fieldService.saveOrUpdate(field);
+    }
+
+    /**
+     * Endpoint to update a Field
+     * @return a single Field
+     */
+    @PutMapping(value = "/fields/{id}", produces = MediaType.APPLICATION_JSON_VALUE)
+    public Field updateField(@PathVariable String id, @Valid @RequestBody FieldsRequestObject fieldDetails) {
+        Field field = fieldService.findById(id);
+        field.setNameEn(fieldDetails.getNameEn());
+        field.setNameDe(fieldDetails.getNameDe());
+        field.setValueEn(fieldDetails.getValueEn());
+        field.setValueDe(fieldDetails.getValueDe());
+        field.setDescription(fieldDetails.getDescription());
+        field.setActive(fieldDetails.isActive());
+        field.setRequired(fieldDetails.isRequired());
+        return fieldService.saveOrUpdate(field);
+    }
+
+    /**
+     * Endpoint to delete all Fields
+     */
+    @DeleteMapping(value = "/fields")
+    public void deleteAllFields() {
+        fieldService.deleteAll();
+    }
+
+    /**
+     * Endpoint to delete a Field by id
+     */
+    @DeleteMapping(value = "/fields/{id}")
+    public void deleteFieldById(@PathVariable String id) {
+        fieldService.deleteById(id);
     }
 }
