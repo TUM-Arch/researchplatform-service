@@ -75,4 +75,10 @@ public interface ProjectService {
      * @return
      */
     List<Project> filterByStatus(List<Project> projects, Constants.ProjectStatus status);
+
+    /**
+     * Advance project workflow
+     * @return updated project
+     */
+    Project advanceWorkflow(String id);
 }

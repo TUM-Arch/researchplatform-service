@@ -58,10 +58,10 @@ public class Project {
         this.yearOfCreation = calendar.get(Calendar.YEAR);
     }
 
-    public Project(String userId, Constants.ProjectStatus status, String name, String chairName, String description, String imageId, List<String> tags, List<Field> fields) {
+    public Project(String userId, String name, String chairName, String description, String imageId, List<String> tags, List<Field> fields) {
         this.createdAt = new Date();
         this.userId = userId;
-        this.status = status;
+        this.status = Constants.ProjectStatus.NOTSUBMITTED;
         this.name = name;
         this.chairName = chairName;
         this.description = description;

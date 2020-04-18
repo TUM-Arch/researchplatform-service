@@ -75,4 +75,24 @@ public class ProjectServiceImplIntegrationTest {
             assertThat(project.getStatus()).isEqualTo(Constants.ProjectStatus.SUBMITTED);
         }
     }
+
+    @Test
+    public void testAdvanceWorkflowToSubmitted() {
+        Project newProject = new Project();
+        newProject = projectService.saveOrUpdate(newProject);
+        Project submittedProject = projectService.advanceWorkflow(newProject.getId());
+        assertThat(submittedProject.getStatus()).isEqualTo(Constants.ProjectStatus.SUBMITTED);
+    }
+
+    @Test
+    public void testAdvanceWorkflowToApproved() {
+        Project newProject = new Project();
+        newProject = projectService.saveOrUpdate(newProject);
+        // Advance to Submitted
+        Project submittedProject = projectService.advanceWorkflow(newProject.getId());
+
+        // Advance to Approved
+        Project approvedProject = projectService.advanceWorkflow(submittedProject.getId());
+        assertThat(approvedProject.getStatus()).isEqualTo(Constants.ProjectStatus.APPROVED);
+    }
 }

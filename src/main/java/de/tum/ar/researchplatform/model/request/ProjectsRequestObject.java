@@ -1,7 +1,6 @@
 package de.tum.ar.researchplatform.model.request;
 
 import de.tum.ar.researchplatform.model.Field;
-import de.tum.ar.researchplatform.util.Constants;
 import lombok.*;
 
 import javax.validation.constraints.NotNull;
@@ -27,5 +26,4 @@ public class ProjectsRequestObject {
     private String userId;
     private List<String> tags;
     private List<Field> fields;
-    private Constants.ProjectStatus status;
 }

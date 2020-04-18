@@ -2,6 +2,7 @@ package de.tum.ar.researchplatform.controller;
 
 import de.tum.ar.researchplatform.model.Project;
 import de.tum.ar.researchplatform.model.request.ProjectsRequestObject;
+import de.tum.ar.researchplatform.model.response.ProjectWorkflowAdvancedResponseObject;
 import de.tum.ar.researchplatform.model.response.ProjectsResponseObject;
 import de.tum.ar.researchplatform.service.project.ProjectServiceImpl;
 import de.tum.ar.researchplatform.util.Constants;
@@ -62,7 +63,6 @@ public class ProjectController {
     @PostMapping(value = "/projects", produces = MediaType.APPLICATION_JSON_VALUE)
     public Project addProject(@Valid @RequestBody ProjectsRequestObject projectDetails) {
         Project project = new Project(projectDetails.getUserId(),
-                projectDetails.getStatus(),
                 projectDetails.getName(),
                 projectDetails.getChairName(),
                 projectDetails.getDescription(),
@@ -86,7 +86,6 @@ public class ProjectController {
         project.setUserId(projectDetails.getUserId());
         project.setTags(projectDetails.getTags());
         project.setFields(projectDetails.getFields());
-        project.setStatus(projectDetails.getStatus());
         return projectService.saveOrUpdate(project);
     }
 
@@ -104,5 +103,31 @@ public class ProjectController {
     @DeleteMapping(value = "/projects/{id}")
     public void deleteProjectById(@PathVariable String id) {
         projectService.deleteById(id);
+    }
+
+    /**
+     * Endpoint to submit project
+     * @return a single Project
+     */
+    @PutMapping(value = "/projects/submit/{id}", produces = MediaType.APPLICATION_JSON_VALUE)
+    public ProjectWorkflowAdvancedResponseObject submitProject(@PathVariable String id) {
+        ProjectWorkflowAdvancedResponseObject responseObject = new ProjectWorkflowAdvancedResponseObject();
+        Project project = projectService.advanceWorkflow(id);
+        responseObject.setId(project.getId());
+        responseObject.setStatus(project.getStatus());
+        return responseObject;
+    }
+
+    /**
+     * Endpoint to approve project
+     * @return a single Project
+     */
+    @PutMapping(value = "/projects/approve/{id}", produces = MediaType.APPLICATION_JSON_VALUE)
+    public ProjectWorkflowAdvancedResponseObject approveProject(@PathVariable String id) {
+        ProjectWorkflowAdvancedResponseObject responseObject = new ProjectWorkflowAdvancedResponseObject();
+        Project project = projectService.advanceWorkflow(id);
+        responseObject.setId(project.getId());
+        responseObject.setStatus(project.getStatus());
+        return responseObject;
     }
 }

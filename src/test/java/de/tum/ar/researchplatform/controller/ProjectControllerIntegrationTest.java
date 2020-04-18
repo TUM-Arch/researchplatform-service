@@ -111,8 +111,7 @@ public class ProjectControllerIntegrationTest {
                 , "testImageId"
                 , "UserId"
                 , new ArrayList<String>()
-                , new ArrayList<Field>()
-                , Constants.ProjectStatus.SUBMITTED);
+                , new ArrayList<Field>());
 
         with()
                 .body(projectsRequestObject)
