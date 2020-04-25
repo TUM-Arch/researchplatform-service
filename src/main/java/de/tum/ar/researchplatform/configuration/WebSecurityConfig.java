@@ -22,9 +22,15 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
         //http.requiresChannel().anyRequest().requiresSecure();
 
         ArrayList<String> allowedOriginsList = new ArrayList<>();
+        ArrayList<String> allowedMethods = new ArrayList<>();
         allowedOriginsList.add("http://localhost:3000");
         CorsConfiguration corsConfiguration = new CorsConfiguration();
         corsConfiguration.setAllowedOrigins(allowedOriginsList);
+        allowedMethods.add("GET");
+        allowedMethods.add("POST");
+        allowedMethods.add("PUT");
+        allowedMethods.add("DELETE");
+        corsConfiguration.setAllowedMethods(allowedMethods);
         corsConfiguration.setAllowCredentials(true);
         corsConfiguration.applyPermitDefaultValues();
 

@@ -23,9 +23,6 @@ public class ImageController {
     @Autowired
     private ImageService imageService;
 
-    @Autowired
-    private ProjectService projectService;
-
     @GetMapping(value = "/images/{id}", produces = MediaType.APPLICATION_JSON_VALUE)
     public String getImage(@PathVariable String id) throws CustomNotFoundException {
         Image image = imageService.findById(id);
