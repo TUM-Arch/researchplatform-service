@@ -22,6 +22,7 @@ public final class Constants {
     public enum ProjectStatus {
         NOTSUBMITTED,
         SUBMITTED,
-        APPROVED
+        APPROVED,
+        REJECTED
     }
 }

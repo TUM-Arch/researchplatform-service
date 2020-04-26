@@ -113,4 +113,14 @@ public class ProjectServiceImpl implements ProjectService {
         }
         return project;
     }
+
+    @Override
+    public Project rejectProject(String id) throws CustomNotFoundException {
+        Project project = this.findById(id);
+        if(project != null) {
+            project.setStatus(Constants.ProjectStatus.REJECTED);
+            project = this.saveOrUpdate(project);
+        }
+        return project;
+    }
 }

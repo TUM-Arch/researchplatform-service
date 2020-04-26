@@ -119,4 +119,16 @@ public class ProjectServiceImplIntegrationTest {
         Project approvedProject = projectService.advanceWorkflow(submittedProject.getId());
         assertThat(approvedProject.getStatus()).isEqualTo(Constants.ProjectStatus.APPROVED);
     }
+
+    @Test
+    public void testAdvanceWorkflowToRejected() throws CustomNotFoundException {
+        Project newProject = new Project();
+        newProject = projectService.saveOrUpdate(newProject);
+        // Advance to Submitted
+        Project submittedProject = projectService.advanceWorkflow(newProject.getId());
+
+        // Advance to Rejected
+        Project rejectedProject = projectService.rejectProject(submittedProject.getId());
+        assertThat(rejectedProject.getStatus()).isEqualTo(Constants.ProjectStatus.REJECTED);
+    }
 }

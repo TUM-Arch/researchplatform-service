@@ -153,4 +153,17 @@ public class ProjectController {
         responseObject.setStatus(project.getStatus());
         return responseObject;
     }
+
+    /**
+     * Endpoint to reject project
+     * @return a single Project
+     */
+    @PutMapping(value = "/projects/reject/{id}", produces = MediaType.APPLICATION_JSON_VALUE)
+    public ProjectWorkflowAdvancedResponseObject rejectProject(@PathVariable String id) throws CustomNotFoundException {
+        ProjectWorkflowAdvancedResponseObject responseObject = new ProjectWorkflowAdvancedResponseObject();
+        Project project = projectService.rejectProject(id);
+        responseObject.setId(project.getId());
+        responseObject.setStatus(project.getStatus());
+        return responseObject;
+    }
 }
