@@ -17,12 +17,6 @@ public interface FieldService {
     List<Field> listAll();
 
     /**
-     * List all active Field objects
-     * @return All active Field objects
-     */
-    List<Field> listAllActive();
-
-    /**
      * Find Field object by id
      * @param id
      * @return Field object found

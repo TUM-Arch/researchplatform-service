@@ -26,18 +26,6 @@ public class FieldServiceImpl implements FieldService {
     }
 
     @Override
-    public List<Field> listAllActive() {
-        List<Field> fields = new ArrayList<>(fieldRepository.findAll());
-        List<Field> activeFields = new ArrayList<>();
-         for(Field field : fields) {
-             if(field.isActive()) {
-                 activeFields.add(field);
-             }
-         }
-         return activeFields;
-    }
-
-    @Override
     public Field findById(String id) throws CustomNotFoundException {
         Field  field = fieldRepository.findById(id).orElse(null);
         if(field == null) {

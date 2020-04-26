@@ -26,15 +26,9 @@ public class FieldController {
      * @return FieldsResponseObject as list of Fields
      */
     @GetMapping(value = "/fields", produces = MediaType.APPLICATION_JSON_VALUE)
-    public FieldsResponseObject getFields(
-            @RequestHeader(value="Active" , required = false, defaultValue = "true") boolean isActive) {
+    public FieldsResponseObject getFields() {
         FieldsResponseObject fieldsResponseObject = new FieldsResponseObject();
-        if(isActive) {
-            fieldsResponseObject.setFieldsList(fieldService.listAllActive());
-        }
-        else {
-            fieldsResponseObject.setFieldsList(fieldService.listAll());
-        }
+        fieldsResponseObject.setFieldsList(fieldService.listAll());
         return fieldsResponseObject;
     }
 
@@ -59,7 +53,6 @@ public class FieldController {
                 fieldDetails.getValueEn(),
                 fieldDetails.getValueDe(),
                 fieldDetails.getDescription(),
-                fieldDetails.isActive(),
                 fieldDetails.isRequired());
         return fieldService.saveOrUpdate(field);
     }
@@ -76,7 +69,6 @@ public class FieldController {
         field.setValueEn(fieldDetails.getValueEn());
         field.setValueDe(fieldDetails.getValueDe());
         field.setDescription(fieldDetails.getDescription());
-        field.setActive(fieldDetails.isActive());
         field.setRequired(fieldDetails.isRequired());
         return fieldService.saveOrUpdate(field);
     }

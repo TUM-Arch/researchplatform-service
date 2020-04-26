@@ -35,21 +35,4 @@ public class FieldServiceImplIntegrationTest {
         Field resultField = fieldService.saveOrUpdate(field);
         assertThat(resultField.getDescription()).isEqualTo("Test");
     }
-
-    @Test
-    public void testListAllActive() {
-        // Create two fields, one active, one inactive
-        Field activeField = new Field();
-        activeField.setActive(true);
-        fieldService.saveOrUpdate(activeField);
-
-        Field inactiveField = new Field();
-        fieldService.saveOrUpdate(inactiveField);
-
-        List<Field> resultFields = fieldService.listAllActive();
-        for(Field field : resultFields) {
-            assertThat(field.isActive()).isEqualTo(true);
-        }
-
-    }
 }
