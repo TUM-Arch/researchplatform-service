@@ -12,8 +12,7 @@ import org.springframework.test.context.junit4.SpringRunner;
 
 import java.util.List;
 
-import static de.tum.ar.researchplatform.util.Constants.ProjectStatus.APPROVED;
-import static de.tum.ar.researchplatform.util.Constants.ProjectStatus.SUBMITTED;
+import static de.tum.ar.researchplatform.util.Constants.ProjectStatus.*;
 import static org.assertj.core.api.Assertions.*;
 
 /**
@@ -80,7 +79,7 @@ public class ProjectServiceImplIntegrationTest {
     }
 
     @Test
-    public void testFilterBySubmittedAndApproved() {
+    public void testFilterBySubmittedApprovedAndRejected() {
         Project projectAbc = new Project();
         projectAbc.setStatus(Constants.ProjectStatus.NOTSUBMITTED);
         projectService.saveOrUpdate(projectAbc);
@@ -93,10 +92,14 @@ public class ProjectServiceImplIntegrationTest {
         projectIjk.setStatus(Constants.ProjectStatus.APPROVED);
         projectService.saveOrUpdate(projectIjk);
 
+        Project projectPqr = new Project();
+        projectPqr.setStatus(REJECTED);
+        projectService.saveOrUpdate(projectPqr);
+
         List<Project> allProjects = projectService.listAll();
-        List<Project> projects = projectService.filterBySubmittedAndApproved(allProjects);
+        List<Project> projects = projectService.filterBySubmittedApprovedAndRejected(allProjects);
         for (Project project : projects) {
-            assertThat(project.getStatus()).isIn(SUBMITTED, APPROVED);
+            assertThat(project.getStatus()).isIn(SUBMITTED, APPROVED, REJECTED);
         }
     }
 

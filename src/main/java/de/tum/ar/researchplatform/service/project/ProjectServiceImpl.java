@@ -90,8 +90,8 @@ public class ProjectServiceImpl implements ProjectService {
     }
 
     @Override
-    public List<Project> filterBySubmittedAndApproved(List<Project> projects) {
-        return projects.stream().filter(project -> project.getStatus().equals(SUBMITTED) || project.getStatus().equals(APPROVED)).collect(Collectors.toList());
+    public List<Project> filterBySubmittedApprovedAndRejected(List<Project> projects) {
+        return projects.stream().filter(project -> project.getStatus().equals(SUBMITTED) || project.getStatus().equals(APPROVED) || project.getStatus().equals(REJECTED)).collect(Collectors.toList());
     }
 
     @Override

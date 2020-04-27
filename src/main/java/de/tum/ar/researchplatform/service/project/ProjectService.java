@@ -82,7 +82,7 @@ public interface ProjectService {
      * @param projects
      * @return
      */
-    List<Project> filterBySubmittedAndApproved(List<Project> projects);
+    List<Project> filterBySubmittedApprovedAndRejected(List<Project> projects);
 
     /**
      * Advance project workflow

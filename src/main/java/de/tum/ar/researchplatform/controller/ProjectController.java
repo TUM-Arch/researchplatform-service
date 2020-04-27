@@ -64,7 +64,7 @@ public class ProjectController {
     public ProjectsResponseObject getAllProjectsForAdmin() {
         ProjectsResponseObject projectsResponseObject = new ProjectsResponseObject();
         List<Project> projectList = new ArrayList<>();
-        projectList = projectService.filterBySubmittedAndApproved(projectList);
+        projectList = projectService.filterBySubmittedApprovedAndRejected(projectList);
         projectsResponseObject.setProjectsList(projectList);
         return projectsResponseObject;
     }
