@@ -83,7 +83,8 @@ public class FieldControllerIntegrationTest {
                 , "ValueEn"
                 , "ValueDe"
                 , "Desc"
-                , false);
+                , false
+                , 1);
 
         with()
                 .body(fieldsRequestObject)

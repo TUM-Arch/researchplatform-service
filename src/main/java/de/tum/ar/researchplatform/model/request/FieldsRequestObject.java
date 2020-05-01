@@ -30,4 +30,5 @@ public class FieldsRequestObject {
     private String description;
 
     private boolean required;
+    private int length;
 }

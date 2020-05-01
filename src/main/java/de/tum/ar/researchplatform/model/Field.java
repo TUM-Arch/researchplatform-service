@@ -32,10 +32,11 @@ public class Field {
     private String description;
 
     private boolean required;
+    private int length;
     @Setter(AccessLevel.NONE)
     private Date createdAt;
 
-    public Field(String nameEn, String nameDe, String valueEn, String valueDe, String description, boolean required) {
+    public Field(String nameEn, String nameDe, String valueEn, String valueDe, String description, boolean required, int length) {
         this.createdAt = new Date();
         this.nameEn = nameEn;
         this.nameDe = nameDe;
@@ -43,5 +44,6 @@ public class Field {
         this.valueDe = valueDe;
         this.description = description;
         this.required = required;
+        this.length = length;
     }
 }

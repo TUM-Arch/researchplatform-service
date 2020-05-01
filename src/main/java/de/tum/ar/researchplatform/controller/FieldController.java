@@ -53,7 +53,8 @@ public class FieldController {
                 fieldDetails.getValueEn(),
                 fieldDetails.getValueDe(),
                 fieldDetails.getDescription(),
-                fieldDetails.isRequired());
+                fieldDetails.isRequired(),
+                fieldDetails.getLength());
         return fieldService.saveOrUpdate(field);
     }
 
@@ -70,6 +71,7 @@ public class FieldController {
         field.setValueDe(fieldDetails.getValueDe());
         field.setDescription(fieldDetails.getDescription());
         field.setRequired(fieldDetails.isRequired());
+        field.setLength(fieldDetails.getLength());
         return fieldService.saveOrUpdate(field);
     }
 
