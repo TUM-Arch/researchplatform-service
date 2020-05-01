@@ -124,14 +124,14 @@ public class ProjectServiceImplIntegrationTest {
     }
 
     @Test
-    public void testAdvanceWorkflowToRejected() throws CustomNotFoundException {
+    public void testRejectWorkflowToRejected() throws CustomNotFoundException {
         Project newProject = new Project();
         newProject = projectService.saveOrUpdate(newProject);
         // Advance to Submitted
         Project submittedProject = projectService.advanceWorkflow(newProject.getId());
 
-        // Advance to Rejected
-        Project rejectedProject = projectService.rejectProject(submittedProject.getId());
+        // Reject to Rejected
+        Project rejectedProject = projectService.rejectWorkflow(submittedProject.getId());
         assertThat(rejectedProject.getStatus()).isEqualTo(Constants.ProjectStatus.REJECTED);
     }
 }

@@ -161,7 +161,7 @@ public class ProjectController {
     @PutMapping(value = "/projects/reject/{id}", produces = MediaType.APPLICATION_JSON_VALUE)
     public ProjectWorkflowAdvancedResponseObject rejectProject(@PathVariable String id) throws CustomNotFoundException {
         ProjectWorkflowAdvancedResponseObject responseObject = new ProjectWorkflowAdvancedResponseObject();
-        Project project = projectService.rejectProject(id);
+        Project project = projectService.rejectWorkflow(id);
         responseObject.setId(project.getId());
         responseObject.setStatus(project.getStatus());
         return responseObject;

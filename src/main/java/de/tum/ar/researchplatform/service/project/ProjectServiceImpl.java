@@ -97,30 +97,26 @@ public class ProjectServiceImpl implements ProjectService {
     @Override
     public Project advanceWorkflow(String id) throws CustomNotFoundException {
         Project project = this.findById(id);
-        if(project != null) {
-            switch(project.getStatus()) {
-                case NOTSUBMITTED:
-                    project.setStatus(SUBMITTED);
-                    project = this.saveOrUpdate(project);
-                    break;
-                case SUBMITTED:
-                    project.setStatus(Constants.ProjectStatus.APPROVED);
-                    project = this.saveOrUpdate(project);
-                    break;
-                default:
-                    break;
-            }
+        switch(project.getStatus()) {
+            case NOTSUBMITTED:
+                project.setStatus(SUBMITTED);
+                project = this.saveOrUpdate(project);
+                break;
+            case SUBMITTED:
+                project.setStatus(Constants.ProjectStatus.APPROVED);
+                project = this.saveOrUpdate(project);
+                break;
+            default:
+                break;
         }
         return project;
     }
 
     @Override
-    public Project rejectProject(String id) throws CustomNotFoundException {
+    public Project rejectWorkflow(String id) throws CustomNotFoundException {
         Project project = this.findById(id);
-        if(project != null) {
-            project.setStatus(Constants.ProjectStatus.REJECTED);
-            project = this.saveOrUpdate(project);
-        }
+        project.setStatus(Constants.ProjectStatus.REJECTED);
+        project = this.saveOrUpdate(project);
         return project;
     }
 }

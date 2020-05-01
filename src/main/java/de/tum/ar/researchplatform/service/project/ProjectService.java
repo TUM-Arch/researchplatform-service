@@ -94,5 +94,5 @@ public interface ProjectService {
      * Reject project
      * @return updated project
      */
-    Project rejectProject(String id) throws CustomNotFoundException;
+    Project rejectWorkflow(String id) throws CustomNotFoundException;
 }
