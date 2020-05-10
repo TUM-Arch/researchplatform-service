@@ -1,7 +1,9 @@
 package de.tum.ar.researchplatform.controller;
 
 import de.tum.ar.researchplatform.model.Image;
+import de.tum.ar.researchplatform.model.Project;
 import de.tum.ar.researchplatform.service.image.ImageService;
+import de.tum.ar.researchplatform.service.project.ProjectService;
 import io.restassured.RestAssured;
 import io.restassured.http.Method;
 import org.apache.http.HttpStatus;
@@ -30,6 +32,8 @@ public class ImageControllerIntegrationTest {
 
     @Autowired
     private ImageService imageService;
+    @Autowired
+    private ProjectService projectService;
 
     private String imageId;
 
@@ -68,10 +72,25 @@ public class ImageControllerIntegrationTest {
 
     @Test
     public void testDELETE_OK() {
-        when()
+        Project project = projectService.saveOrUpdate(new Project());
+        given()
+                .param("projectId", project.getId())
+                .when()
                 .request(Method.DELETE, endpoint + '/' + this.imageId)
                 .then()
                 .assertThat()
                 .statusCode(HttpStatus.SC_OK);
+    }
+
+    @Test
+    public void testDELETE_NOT_FOUND() {
+        // Pass non existing project id
+        given()
+                .param("projectId", "NON_EXISTING_PROJECT_ID")
+                .when()
+                .request(Method.DELETE, endpoint + '/' + this.imageId)
+                .then()
+                .assertThat()
+                .statusCode(HttpStatus.SC_NOT_FOUND);
     }
 }
