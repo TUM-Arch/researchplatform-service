@@ -32,7 +32,7 @@ public class Field {
     private String description;
 
     private boolean required;
-    private int length;
+    private int length = 128; // Default
     @Setter(AccessLevel.NONE)
     private Date createdAt;
 
