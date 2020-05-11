@@ -38,6 +38,7 @@ public class ImageController {
         Project project = projectService.findById(projectId);
         Image addedImage = imageService.addImage(image);
         project.setImageId(addedImage.getId());
+        projectService.saveOrUpdate(project);
         return new ImageResponseObject(addedImage);
     }
 
@@ -47,6 +48,7 @@ public class ImageController {
         Project project = projectService.findById(projectId);
         Image updatedImage = imageService.updateImage(image, id);
         project.setImageId(updatedImage.getId());
+        projectService.saveOrUpdate(project);
         return new ImageResponseObject(updatedImage);
     }
 
@@ -55,5 +57,6 @@ public class ImageController {
         imageService.deleteById(id);
         Project project = projectService.findById(projectId);
         project.setImageId(null);
+        projectService.saveOrUpdate(project);
     }
 }
