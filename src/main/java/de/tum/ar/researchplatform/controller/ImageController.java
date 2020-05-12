@@ -42,7 +42,7 @@ public class ImageController {
         return new ImageResponseObject(addedImage);
     }
 
-    @PutMapping(value = "/images/{id}", consumes = MediaType.MULTIPART_FORM_DATA_VALUE, produces = MediaType.APPLICATION_JSON_VALUE)
+    @PostMapping(value = "/images/{id}", consumes = MediaType.MULTIPART_FORM_DATA_VALUE, produces = MediaType.APPLICATION_JSON_VALUE)
     public ImageResponseObject updateImage(@PathVariable String id, @RequestParam("image") MultipartFile image, @RequestParam("projectId") String projectId)
             throws IOException, CustomNotFoundException {
         Project project = projectService.findById(projectId);
