@@ -19,10 +19,12 @@ import java.util.Base64;
 @NoArgsConstructor
 public class ImageResponseObject {
     private String imageId;
+    private String imageName;
     private String image;
 
     public ImageResponseObject(Image image) {
         this.imageId = image.getId();
+        this.imageName = image.getImageName();
         if(image.getImage() != null) {
             this.image = Base64.getEncoder().encodeToString(image.getImage().getData());
         }

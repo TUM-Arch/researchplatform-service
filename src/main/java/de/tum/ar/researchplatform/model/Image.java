@@ -18,6 +18,6 @@ public class Image {
 
     @Id
     private String id;
-
+    private String imageName;
     private Binary image;
 }

@@ -69,6 +69,7 @@ public class ImageServiceImpl implements ImageService{
     @Override
     public Image addImage(MultipartFile file) throws IOException {
         Image image = new Image();
+        image.setImageName(file.getOriginalFilename());
         image.setImage( new Binary(BsonBinarySubType.BINARY, file.getBytes()));
         image = this.saveOrUpdate(image);
         return image;
