@@ -72,17 +72,17 @@ public class JwtAuthFilter extends OncePerRequestFilter {
                 String sessionId = "session";
                 String jwt = null;
                 User user = null;
-                Boolean loggedInAsUser = null;
+                Boolean loggedInAsAdmin = null;
                 try {
                     // TODO: Attempt Login and remove temp login
                     // MultiValueMap<String, String> cookies = loginService.attemptLogin(userId, password);
-                    loggedInAsUser = loginService.attemptTempLogin(userId, password);
+                    loggedInAsAdmin = loginService.attemptTempLogin(userId, password);
                     userService.findByTumId(userId);
-                    if(loggedInAsUser) {
-                        jwt = jwtBuilder.buildJwtForUser(userId, sessionId);
+                    if(loggedInAsAdmin) {
+                        jwt = jwtBuilder.buildJwtForAdmin(userId, sessionId);
                     }
                     else {
-                        jwt = jwtBuilder.buildJwtForAdmin(userId, sessionId);
+                        jwt = jwtBuilder.buildJwtForUser(userId, sessionId);
                     }
                 } catch (CustomLoginException e) {
                     throw new AccessDeniedException(LOGIN_FAILED_MSG);
@@ -93,7 +93,7 @@ public class JwtAuthFilter extends OncePerRequestFilter {
                 if(!response.containsHeader(TOKEN_HEADER))
                     response.addHeader(TOKEN_HEADER, "Bearer " + jwt);
                 if(!response.containsHeader(ADMIN_HEADER))
-                    response.addHeader(ADMIN_HEADER, String.valueOf(loggedInAsUser));
+                    response.addHeader(ADMIN_HEADER, String.valueOf(loggedInAsAdmin));
                 if(!response.containsHeader(ACCESS_CONTROL_EXPOSE_HEADERS))
                     response.addHeader(ACCESS_CONTROL_EXPOSE_HEADERS, new String(TOKEN_HEADER + "," + ADMIN_HEADER));
             }
