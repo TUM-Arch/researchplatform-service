@@ -1,5 +1,6 @@
 package de.tum.ar.researchplatform.controller;
 
+import de.tum.ar.researchplatform.component.security.HasUserRole;
 import de.tum.ar.researchplatform.exception.CustomNotFoundException;
 import de.tum.ar.researchplatform.model.Image;
 import de.tum.ar.researchplatform.model.Project;
@@ -27,12 +28,14 @@ public class ImageController {
     private ProjectService projectService;
 
     @GetMapping(value = "/images/{id}", produces = MediaType.APPLICATION_JSON_VALUE)
+    @HasUserRole
     public ImageResponseObject getImage(@PathVariable String id) throws CustomNotFoundException {
         Image image = imageService.findById(id);
         return new ImageResponseObject(image);
     }
 
     @PostMapping(value = "/images", consumes = MediaType.MULTIPART_FORM_DATA_VALUE, produces = MediaType.APPLICATION_JSON_VALUE)
+    @HasUserRole
     public ImageResponseObject addImage(@RequestParam("image") MultipartFile image, @RequestParam("projectId") String projectId)
             throws IOException, CustomNotFoundException {
         Project project = projectService.findById(projectId);
@@ -43,6 +46,7 @@ public class ImageController {
     }
 
     @PostMapping(value = "/images/{id}", consumes = MediaType.MULTIPART_FORM_DATA_VALUE, produces = MediaType.APPLICATION_JSON_VALUE)
+    @HasUserRole
     public ImageResponseObject updateImage(@PathVariable String id, @RequestParam("image") MultipartFile image, @RequestParam("projectId") String projectId)
             throws IOException, CustomNotFoundException {
         Project project = projectService.findById(projectId);
@@ -53,6 +57,7 @@ public class ImageController {
     }
 
     @DeleteMapping(value = "/images/{id}", produces = MediaType.APPLICATION_JSON_VALUE)
+    @HasUserRole
     public void deleteImage(@PathVariable String id, @RequestParam("projectId") String projectId) throws CustomNotFoundException {
         imageService.deleteById(id);
         Project project = projectService.findById(projectId);

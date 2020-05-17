@@ -1,5 +1,7 @@
 package de.tum.ar.researchplatform.controller;
 
+import de.tum.ar.researchplatform.component.security.HasAdminRole;
+import de.tum.ar.researchplatform.component.security.HasUserRole;
 import de.tum.ar.researchplatform.exception.CustomNotFoundException;
 import de.tum.ar.researchplatform.model.Field;
 import de.tum.ar.researchplatform.model.request.FieldsRequestObject;
@@ -26,6 +28,7 @@ public class FieldController {
      * @return FieldsResponseObject as list of Fields
      */
     @GetMapping(value = "/fields", produces = MediaType.APPLICATION_JSON_VALUE)
+    @HasUserRole
     public FieldsResponseObject getFields() {
         FieldsResponseObject fieldsResponseObject = new FieldsResponseObject();
         fieldsResponseObject.setFieldsList(fieldService.listAll());
@@ -37,6 +40,7 @@ public class FieldController {
      * @return a single Field
      */
     @GetMapping(value = "/fields/{id}", produces = MediaType.APPLICATION_JSON_VALUE)
+    @HasUserRole
     public Field getFieldById(@PathVariable String id) throws CustomNotFoundException {
         Field field = fieldService.findById(id);
         return field;
@@ -47,6 +51,7 @@ public class FieldController {
      * @return a single Field
      */
     @PostMapping(value = "/fields", produces = MediaType.APPLICATION_JSON_VALUE)
+    @HasAdminRole
     public Field addField(@Valid @RequestBody FieldsRequestObject fieldDetails) {
         Field field = new Field(fieldDetails.getNameEn(),
                 fieldDetails.getNameDe(),
@@ -63,6 +68,7 @@ public class FieldController {
      * @return a single Field
      */
     @PutMapping(value = "/fields/{id}", produces = MediaType.APPLICATION_JSON_VALUE)
+    @HasAdminRole
     public Field updateField(@PathVariable String id, @Valid @RequestBody FieldsRequestObject fieldDetails) throws CustomNotFoundException {
         Field field = fieldService.findById(id);
         field.setNameEn(fieldDetails.getNameEn());
@@ -79,6 +85,7 @@ public class FieldController {
      * Endpoint to delete all Fields
      */
     @DeleteMapping(value = "/fields")
+    @HasAdminRole
     public void deleteAllFields() {
         fieldService.deleteAll();
     }
@@ -87,6 +94,7 @@ public class FieldController {
      * Endpoint to delete a Field by id
      */
     @DeleteMapping(value = "/fields/{id}")
+    @HasAdminRole
     public void deleteFieldById(@PathVariable String id) {
         fieldService.deleteById(id);
     }

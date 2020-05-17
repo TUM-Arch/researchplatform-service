@@ -29,6 +29,7 @@ public class User {
     @Indexed(unique = true)
     private String tumId;
 
+    //TODO: Decide if this is needed
     private boolean admin;
 
     @Setter(AccessLevel.NONE)
@@ -39,5 +40,9 @@ public class User {
         this.name = name;
         this.tumId = tumId;
         this.admin = admin;
+    }
+    public User(String tumId) {
+        this.createdAt = new Date();
+        this.tumId = tumId;
     }
 }

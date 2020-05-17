@@ -1,5 +1,6 @@
 package de.tum.ar.researchplatform.controller;
 
+import de.tum.ar.researchplatform.component.security.HasAdminRole;
 import de.tum.ar.researchplatform.exception.CustomNotFoundException;
 import de.tum.ar.researchplatform.model.User;
 import de.tum.ar.researchplatform.model.request.UsersRequestObject;
@@ -32,6 +33,7 @@ public class UserController {
      * @return UsersResponseObject as list of Users
      */
     @GetMapping(value = "/users", produces = MediaType.APPLICATION_JSON_VALUE)
+    @HasAdminRole
     public UsersResponseObject getAllUsers() {
         UsersResponseObject usersResponseObject = new UsersResponseObject();
         usersResponseObject.setUsersList(userService.listAll());
@@ -43,6 +45,7 @@ public class UserController {
      * @return a single User
      */
     @GetMapping(value = "/users/{id}", produces = MediaType.APPLICATION_JSON_VALUE)
+    @HasAdminRole
     public User getUserById(@PathVariable String id) throws CustomNotFoundException {
         User user = userService.findById(id);
         return user;
@@ -53,6 +56,7 @@ public class UserController {
      * @return a single User
      */
     @PostMapping(value = "/users", produces = MediaType.APPLICATION_JSON_VALUE)
+    @HasAdminRole
     public User addUser(@Valid @RequestBody UsersRequestObject userDetails) {
     	User user = new User(userDetails.getName(), userDetails.getTumId(), userDetails.isAdmin());
         return userService.saveOrUpdate(user);
@@ -63,6 +67,7 @@ public class UserController {
      * @return a single User
      */
     @PutMapping(value = "/users/{id}", produces = MediaType.APPLICATION_JSON_VALUE)
+    @HasAdminRole
     public User updateUser(@PathVariable String id, @Valid @RequestBody UsersRequestObject userDetails) throws CustomNotFoundException {
     	User user = userService.findById(id);
     	user.setName(userDetails.getName());
@@ -75,6 +80,7 @@ public class UserController {
      * Endpoint to delete all Users
      */
     @DeleteMapping(value = "/users")
+    @HasAdminRole
     public void deleteAllUsers() {
         userService.deleteAll();
     }
@@ -83,6 +89,7 @@ public class UserController {
      * Endpoint to delete a User by id
      */
     @DeleteMapping(value = "/users/{id}")
+    @HasAdminRole
     public void deleteUserById(@PathVariable String id) {
         userService.deleteById(id);
     }

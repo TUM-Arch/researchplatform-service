@@ -9,6 +9,8 @@ import org.springframework.stereotype.Service;
 
 import java.util.List;
 
+import static de.tum.ar.researchplatform.util.Constants.USER_NOT_FOUND_MSG;
+
 /**
  * Created by karthik on 9/9/2019
  */
@@ -28,7 +30,7 @@ public class UserServiceImpl implements UserService{
     public User findById(String id) throws CustomNotFoundException {
         User user = userRepository.findById(id).orElse(null);
         if(user == null) {
-            throw new CustomNotFoundException("Not found");
+            throw new CustomNotFoundException(USER_NOT_FOUND_MSG);
         }
         return user;
     }
@@ -74,7 +76,7 @@ public class UserServiceImpl implements UserService{
     public User findByTumId(String tumId) throws CustomNotFoundException {
         User user = userRepository.findByTumId(tumId);
         if(user == null) {
-            throw new CustomNotFoundException("Not found");
+            throw new CustomNotFoundException(USER_NOT_FOUND_MSG);
         }
         return user;
     }

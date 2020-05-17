@@ -1,5 +1,6 @@
 package de.tum.ar.researchplatform.controller;
 
+import de.tum.ar.researchplatform.component.security.HasAdminRole;
 import de.tum.ar.researchplatform.model.response.ProjectsResponseObject;
 import de.tum.ar.researchplatform.service.project.ProjectServiceImpl;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -24,6 +25,8 @@ public class SearchController {
      * @return a list of matched Projects
      */
     @GetMapping(value = "/projects", produces = MediaType.APPLICATION_JSON_VALUE)
+    @HasAdminRole
+    //TODO: Decide if this is needed
     public ProjectsResponseObject getSearchedProjectsByUserId(@RequestHeader(value="userId" , required = true) String userId, @RequestHeader(value="name" , required = true) String name) {
         ProjectsResponseObject projectsResponseObject = new ProjectsResponseObject();
         projectsResponseObject.setProjectsList(projectService.findByNameForUser(userId, name));

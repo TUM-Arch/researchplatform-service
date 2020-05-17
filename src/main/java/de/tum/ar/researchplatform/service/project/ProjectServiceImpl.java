@@ -12,6 +12,7 @@ import org.springframework.stereotype.Service;
 import java.util.List;
 import java.util.stream.Collectors;
 
+import static de.tum.ar.researchplatform.util.Constants.PROJECT_NOT_FOUND_MSG;
 import static de.tum.ar.researchplatform.util.Constants.ProjectStatus.*;
 
 /**
@@ -33,7 +34,7 @@ public class ProjectServiceImpl implements ProjectService {
     public Project findById(String id) throws CustomNotFoundException {
         Project project = projectRepository.findById(id).orElse(null);
         if(project == null) {
-            throw new CustomNotFoundException("Not found");
+            throw new CustomNotFoundException(PROJECT_NOT_FOUND_MSG);
         }
         return project;
     }

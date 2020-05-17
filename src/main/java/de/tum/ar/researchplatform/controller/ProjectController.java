@@ -1,5 +1,7 @@
 package de.tum.ar.researchplatform.controller;
 
+import de.tum.ar.researchplatform.component.security.HasAdminRole;
+import de.tum.ar.researchplatform.component.security.HasUserRole;
 import de.tum.ar.researchplatform.exception.CustomNotFoundException;
 import de.tum.ar.researchplatform.model.Project;
 import de.tum.ar.researchplatform.model.request.ProjectsRequestObject;
@@ -30,6 +32,8 @@ public class ProjectController {
      * @return ProjectsResponseObject as list of Projects
      */
     @GetMapping(value = "/projects", produces = MediaType.APPLICATION_JSON_VALUE)
+    @HasUserRole
+    //TODO: Replace with AdminRole
     public ProjectsResponseObject getAllProjects() {
         ProjectsResponseObject projectsResponseObject = new ProjectsResponseObject();
         List<Project> projectList = projectService.listAll();
@@ -42,6 +46,7 @@ public class ProjectController {
      * @return ProjectsResponseObject as list of Projects
      */
     @GetMapping(value = "/projects/my", produces = MediaType.APPLICATION_JSON_VALUE)
+    @HasUserRole
     public ProjectsResponseObject getAllProjectsForUser(@RequestHeader(value="userId" , required = true) String userId
             , @RequestHeader(value="status" , required = false) Constants.ProjectStatus status) {
         ProjectsResponseObject projectsResponseObject = new ProjectsResponseObject();
@@ -61,6 +66,7 @@ public class ProjectController {
      * @return ProjectsResponseObject as list of Projects
      */
     @GetMapping(value = "/projects/manage", produces = MediaType.APPLICATION_JSON_VALUE)
+    @HasAdminRole
     public ProjectsResponseObject getAllProjectsForAdmin() {
         ProjectsResponseObject projectsResponseObject = new ProjectsResponseObject();
         List<Project> projectList = new ArrayList<>();
@@ -74,6 +80,7 @@ public class ProjectController {
      * @return a single Project
      */
     @GetMapping(value = "/projects/{id}", produces = MediaType.APPLICATION_JSON_VALUE)
+    @HasAdminRole
     public Project getProjectById(@PathVariable String id) throws CustomNotFoundException {
         Project project = projectService.findById(id);
         return project;
@@ -84,6 +91,7 @@ public class ProjectController {
      * @return a single Project
      */
     @PostMapping(value = "/projects", produces = MediaType.APPLICATION_JSON_VALUE)
+    @HasUserRole
     public Project addProject(@Valid @RequestBody ProjectsRequestObject projectDetails) {
         Project project = new Project(projectDetails.getUserId(),
                 projectDetails.getName(),
@@ -100,6 +108,7 @@ public class ProjectController {
      * @return a single Project
      */
     @PutMapping(value = "/projects/{id}", produces = MediaType.APPLICATION_JSON_VALUE)
+    @HasUserRole
     public Project updateProject(@PathVariable String id, @Valid @RequestBody ProjectsRequestObject projectDetails) throws CustomNotFoundException {
         Project project = projectService.findById(id);
         project.setName(projectDetails.getName());
@@ -116,6 +125,7 @@ public class ProjectController {
      * Endpoint to delete all Projects
      */
     @DeleteMapping(value = "/projects")
+    @HasAdminRole
     public void deleteAllProjects() {
         projectService.deleteAll();
     }
@@ -124,6 +134,7 @@ public class ProjectController {
      * Endpoint to delete a Project by id
      */
     @DeleteMapping(value = "/projects/{id}")
+    @HasUserRole
     public void deleteProjectById(@PathVariable String id) {
         projectService.deleteById(id);
     }
@@ -133,6 +144,7 @@ public class ProjectController {
      * @return a single Project
      */
     @PutMapping(value = "/projects/submit/{id}", produces = MediaType.APPLICATION_JSON_VALUE)
+    @HasUserRole
     public ProjectWorkflowAdvancedResponseObject submitProject(@PathVariable String id) throws CustomNotFoundException {
         ProjectWorkflowAdvancedResponseObject responseObject = new ProjectWorkflowAdvancedResponseObject();
         Project project = projectService.advanceWorkflow(id);
@@ -146,6 +158,7 @@ public class ProjectController {
      * @return a single Project
      */
     @PutMapping(value = "/projects/approve/{id}", produces = MediaType.APPLICATION_JSON_VALUE)
+    @HasAdminRole
     public ProjectWorkflowAdvancedResponseObject approveProject(@PathVariable String id) throws CustomNotFoundException {
         ProjectWorkflowAdvancedResponseObject responseObject = new ProjectWorkflowAdvancedResponseObject();
         Project project = projectService.advanceWorkflow(id);
@@ -159,6 +172,7 @@ public class ProjectController {
      * @return a single Project
      */
     @PutMapping(value = "/projects/reject/{id}", produces = MediaType.APPLICATION_JSON_VALUE)
+    @HasAdminRole
     public ProjectWorkflowAdvancedResponseObject rejectProject(@PathVariable String id) throws CustomNotFoundException {
         ProjectWorkflowAdvancedResponseObject responseObject = new ProjectWorkflowAdvancedResponseObject();
         Project project = projectService.rejectWorkflow(id);

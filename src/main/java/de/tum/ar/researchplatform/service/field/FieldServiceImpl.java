@@ -7,8 +7,9 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import java.util.ArrayList;
 import java.util.List;
+
+import static de.tum.ar.researchplatform.util.Constants.FIELD_NOT_FOUND_MSG;
 
 /**
  * Created by karthik on 9/10/2019
@@ -29,7 +30,7 @@ public class FieldServiceImpl implements FieldService {
     public Field findById(String id) throws CustomNotFoundException {
         Field  field = fieldRepository.findById(id).orElse(null);
         if(field == null) {
-            throw new CustomNotFoundException("Not found");
+            throw new CustomNotFoundException(FIELD_NOT_FOUND_MSG);
         }
         return field;
     }

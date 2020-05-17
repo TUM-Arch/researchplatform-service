@@ -13,6 +13,8 @@ import org.springframework.web.multipart.MultipartFile;
 
 import java.io.IOException;
 
+import static de.tum.ar.researchplatform.util.Constants.IMAGE_NOT_FOUND_MSG;
+
 /**
  * Created by karthik on 3/29/2020
  */
@@ -29,7 +31,7 @@ public class ImageServiceImpl implements ImageService{
     public Image findById(String id) throws CustomNotFoundException {
         Image image = imageRepository.findById(id).orElse(null);
         if(image == null) {
-            throw new CustomNotFoundException("Not found");
+            throw new CustomNotFoundException(IMAGE_NOT_FOUND_MSG);
         }
         return image;
     }
