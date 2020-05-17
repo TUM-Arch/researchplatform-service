@@ -1,4 +1,4 @@
-package de.tum.ar.researchplatform.service.login;
+package de.tum.ar.researchplatform.service.auth;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 import de.tum.ar.researchplatform.exception.CustomLoginException;
@@ -27,19 +27,20 @@ import static org.springframework.http.MediaType.TEXT_HTML;
  */
 @Service
 @Slf4j
-public class LoginServiceImpl implements LoginService {
+public class AuthServiceImpl implements AuthService {
 
     @Override
-    public String attemptTempLogin(String userId, String password) throws CustomLoginException {
+    public boolean attemptTempLogin(String userId, String password) throws CustomLoginException {
         if(userId.equals("user") && password.equals("password"))
-            return ROLE_USER;
+            return false;
         else if(userId.equals("admin") && password.equals("password"))
-            return ROLE_ADMIN;
+            return true;
         throw new CustomLoginException(LOGIN_FAILED_MSG);
     }
 
     @Override
     public MultiValueMap<String, String> attemptLogin(String userId, String password) {
+        //TODO: Implement API call here
         MultiValueMap<String, String> cookies = new LinkedMultiValueMap<String, String>();
         WebClient webClient = WebClient.builder()
                 .baseUrl(TUM_ONLINE_BASE_URL)
@@ -63,7 +64,7 @@ public class LoginServiceImpl implements LoginService {
 
     @Override
     public MultiValueMap<String, String> attemptLogout(String userId, String sessionId) {
-        //TODO: Add session as cookie
+        //TODO: Implement API call here
         MultiValueMap<String, String> cookies = new LinkedMultiValueMap<String, String>();
         WebClient webClient = WebClient.builder()
                 .baseUrl(TUM_ONLINE_BASE_URL)

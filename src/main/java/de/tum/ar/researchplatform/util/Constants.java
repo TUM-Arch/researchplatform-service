@@ -34,6 +34,8 @@ public final class Constants {
     public static final String TOKEN_PREFIX = "Bearer ";
     public static final String ROLE_ADMIN = "ADMIN";
     public static final String ROLE_USER = "USER";
+    public static final String ADMIN_HEADER = "Admin";
+    public static final String ACCESS_CONTROL_EXPOSE_HEADERS = "Access-Control-Expose-Headers";
 
     // MESSAGES
     public static final String FIELD_NOT_FOUND_MSG = "Field not found";

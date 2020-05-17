@@ -32,8 +32,7 @@ public class ProjectController {
      * @return ProjectsResponseObject as list of Projects
      */
     @GetMapping(value = "/projects", produces = MediaType.APPLICATION_JSON_VALUE)
-    @HasUserRole
-    //TODO: Replace with AdminRole
+    @HasAdminRole
     public ProjectsResponseObject getAllProjects() {
         ProjectsResponseObject projectsResponseObject = new ProjectsResponseObject();
         List<Project> projectList = projectService.listAll();

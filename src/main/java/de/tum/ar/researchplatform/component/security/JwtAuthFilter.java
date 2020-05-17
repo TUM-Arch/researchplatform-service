@@ -3,19 +3,18 @@ package de.tum.ar.researchplatform.component.security;
 import de.tum.ar.researchplatform.exception.CustomLoginException;
 import de.tum.ar.researchplatform.exception.CustomNotFoundException;
 import de.tum.ar.researchplatform.model.User;
-import de.tum.ar.researchplatform.service.login.LoginServiceImpl;
+import de.tum.ar.researchplatform.service.auth.AuthServiceImpl;
 import de.tum.ar.researchplatform.service.user.UserServiceImpl;
 import de.tum.ar.researchplatform.util.Constants;
 import io.jsonwebtoken.*;
 import io.jsonwebtoken.security.SignatureException;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.http.ResponseCookie;
+import org.springframework.security.access.AccessDeniedException;
 import org.springframework.security.authentication.AnonymousAuthenticationToken;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Component;
-import org.springframework.util.MultiValueMap;
 import org.springframework.util.StringUtils;
 import org.springframework.web.context.WebApplicationContext;
 import org.springframework.web.context.support.WebApplicationContextUtils;
@@ -47,7 +46,7 @@ public class JwtAuthFilter extends OncePerRequestFilter {
     private UserServiceImpl userService;
 
     @Autowired
-    private LoginServiceImpl loginService;
+    private AuthServiceImpl loginService;
 
     @Override
     protected void doFilterInternal(HttpServletRequest request, HttpServletResponse response, FilterChain filterChain) throws ServletException, IOException {
@@ -60,7 +59,7 @@ public class JwtAuthFilter extends OncePerRequestFilter {
         }
         if (loginService == null) {
             WebApplicationContext webApplicationContext = WebApplicationContextUtils.getWebApplicationContext(servletContext);
-            loginService = Objects.requireNonNull(webApplicationContext).getBean(LoginServiceImpl.class);
+            loginService = Objects.requireNonNull(webApplicationContext).getBean(AuthServiceImpl.class);
         }
         String header = request.getHeader(Constants.TOKEN_HEADER);
         if (StringUtils.isEmpty(header) || !header.startsWith(Constants.TOKEN_PREFIX)) {
@@ -73,31 +72,30 @@ public class JwtAuthFilter extends OncePerRequestFilter {
                 String sessionId = "session";
                 String jwt = null;
                 User user = null;
-                // Attempt Login
-                // MultiValueMap<String, String> cookies = loginService.attemptLogin(userId, password);
-
-                String role = null;
+                Boolean loggedInAsUser = null;
                 try {
-                    role = loginService.attemptTempLogin(userId, password);
+                    // TODO: Attempt Login and remove temp login
+                    // MultiValueMap<String, String> cookies = loginService.attemptLogin(userId, password);
+                    loggedInAsUser = loginService.attemptTempLogin(userId, password);
                     userService.findByTumId(userId);
-                    switch (role) {
-                        case ROLE_ADMIN:
-                            jwt = jwtBuilder.buildJwtForAdmin(userId, sessionId);
-                            break;
-                        case ROLE_USER:
-                            jwt = jwtBuilder.buildJwtForUser(userId, sessionId);
-                            break;
-                        default:
-                            break;
+                    if(loggedInAsUser) {
+                        jwt = jwtBuilder.buildJwtForUser(userId, sessionId);
+                    }
+                    else {
+                        jwt = jwtBuilder.buildJwtForAdmin(userId, sessionId);
                     }
                 } catch (CustomLoginException e) {
-                    log.error(e.getMessage());
+                    throw new AccessDeniedException(LOGIN_FAILED_MSG);
                 } catch (CustomNotFoundException e) {
                     user = new User(userId);
                     userService.saveOrUpdate(user);
                 }
-                if(!response.containsHeader(Constants.TOKEN_HEADER))
-                    response.addHeader(Constants.TOKEN_HEADER, "Bearer " + jwt);
+                if(!response.containsHeader(TOKEN_HEADER))
+                    response.addHeader(TOKEN_HEADER, "Bearer " + jwt);
+                if(!response.containsHeader(ADMIN_HEADER))
+                    response.addHeader(ADMIN_HEADER, String.valueOf(loggedInAsUser));
+                if(!response.containsHeader(ACCESS_CONTROL_EXPOSE_HEADERS))
+                    response.addHeader(ACCESS_CONTROL_EXPOSE_HEADERS, new String(TOKEN_HEADER + "," + ADMIN_HEADER));
             }
             filterChain.doFilter(request, response);
             return;
@@ -131,7 +129,7 @@ public class JwtAuthFilter extends OncePerRequestFilter {
             if (user != null && !StringUtils.isEmpty(sessionId)) {
                 anonymousAuthenticationToken = new AnonymousAuthenticationToken(userId, user, authorities);
                 if(requestMethod.equals("GET") && (requestURI.equals("/api/logout/") || requestURI.equals("/api/logout"))) {
-                    // Attempt Logout
+                    // TODO: Attempt Logout
                     // MultiValueMap<String, String> cookies = loginService.attemptLogout(userId, sessionId);
                 }
             }
@@ -149,17 +147,5 @@ public class JwtAuthFilter extends OncePerRequestFilter {
             log.error(Constants.USER_NOT_FOUND_MSG);
         }
         return anonymousAuthenticationToken;
-    }
-
-    // Unused currently
-    private ResponseCookie getJwtCookie(String jwt) {
-        return ResponseCookie
-                .from("Authorization", "Bearer " + jwt)
-                .sameSite("None")
-                .maxAge(TOKEN_EXPIRY_S)
-                .path("/")
-                .httpOnly(true)
-                .secure(false)
-                .build();
     }
 }

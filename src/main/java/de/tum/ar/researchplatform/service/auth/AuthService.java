@@ -1,4 +1,4 @@
-package de.tum.ar.researchplatform.service.login;
+package de.tum.ar.researchplatform.service.auth;
 
 import de.tum.ar.researchplatform.exception.CustomLoginException;
 import org.springframework.util.MultiValueMap;
@@ -6,15 +6,15 @@ import org.springframework.util.MultiValueMap;
 /**
  * Created by karthik on 5/16/2020
  */
-public interface LoginService {
+public interface AuthService {
 
     /**
      * Temporary
      * @param userId
      * @param password
-     * @return role
+     * @return true if user, false if admin
      */
-    String attemptTempLogin(String userId, String password) throws CustomLoginException;
+    boolean attemptTempLogin(String userId, String password) throws CustomLoginException;
 
     /**
      * Forward login request and attempt login

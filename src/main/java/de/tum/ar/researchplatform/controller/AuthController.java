@@ -2,7 +2,7 @@ package de.tum.ar.researchplatform.controller;
 
 import de.tum.ar.researchplatform.component.security.HasUserRole;
 import de.tum.ar.researchplatform.component.security.JwtBuilder;
-import de.tum.ar.researchplatform.service.login.LoginServiceImpl;
+import de.tum.ar.researchplatform.service.auth.AuthServiceImpl;
 import de.tum.ar.researchplatform.service.user.UserServiceImpl;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.*;
@@ -19,7 +19,7 @@ public class AuthController {
     @Autowired
     private UserServiceImpl userService;
     @Autowired
-    private LoginServiceImpl loginService;
+    private AuthServiceImpl loginService;
 
     /**
      * Endpoint to login
