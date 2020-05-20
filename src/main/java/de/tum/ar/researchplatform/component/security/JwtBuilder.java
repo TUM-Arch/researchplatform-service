@@ -6,9 +6,7 @@ import io.jsonwebtoken.SignatureAlgorithm;
 import io.jsonwebtoken.security.Keys;
 import org.springframework.stereotype.Component;
 
-import java.util.ArrayList;
 import java.util.Date;
-import java.util.List;
 
 import static de.tum.ar.researchplatform.util.Constants.*;
 
@@ -21,34 +19,35 @@ public class JwtBuilder {
     /***
      * Build a JWT for the given user Id with a user role
      * @param userId userId
+     * @param loginId loginId
+     * @param sessionId sessionId
      * @return token
      */
-    public String buildJwtForUser(String userId, String sessionId) {
-        List<String> roles = new ArrayList<>();
-        roles.add(Constants.ROLE_USER);
-        return this.buildJwtWithRole(userId, sessionId, roles);
+    public String buildJwtForUser(String userId, String loginId, String sessionId) {
+        return this.buildJwtWithRole(userId, loginId, sessionId, Constants.ROLE_USER);
     }
 
     /***
      * Build a JWT for the given user Id with an admin role
      * @param userId userId
+     * @param loginId loginId
+     * @param sessionId sessionId
      * @return token
      */
-    public String buildJwtForAdmin(String userId,  String sessionId) {
-        List<String> roles = new ArrayList<>();
-        roles.add(Constants.ROLE_ADMIN);
-        return this.buildJwtWithRole(userId, sessionId, roles);
+    public String buildJwtForAdmin(String userId, String loginId, String sessionId) {
+        return this.buildJwtWithRole(userId, loginId, sessionId, Constants.ROLE_ADMIN);
     }
 
-    private String buildJwtWithRole(String userId, String sessionId, List<String> roles) {
+    private String buildJwtWithRole(String userId, String loginId, String sessionId, String role) {
         byte[] signingKey = JWT_SECRET.getBytes();
         return Jwts.builder().signWith(Keys.hmacShaKeyFor(signingKey), SignatureAlgorithm.HS512)
-                .setHeaderParam("typ", TOKEN_TYPE)
+                .setHeaderParam(TOKEN_CLAIM_TYPE, TOKEN_TYPE)
                 .setIssuer(TOKEN_ISSUER)
                 .setAudience(TOKEN_AUDIENCE)
                 .setSubject(userId)
-                .claim("role", roles)
-                .claim("sessionId", sessionId)
+                .claim(TOKEN_CLAIM_ROLE, role)
+                .claim(TOKEN_CLAIM_SESSIONID, sessionId)
+                .claim(TOKEN_CLAIM_LOGINID, loginId)
                 .setExpiration(new Date(System.currentTimeMillis() + TOKEN_EXPIRY_MS)).compact();
     }
 }

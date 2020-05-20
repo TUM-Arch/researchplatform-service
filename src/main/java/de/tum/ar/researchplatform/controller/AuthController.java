@@ -1,8 +1,7 @@
 package de.tum.ar.researchplatform.controller;
 
 import de.tum.ar.researchplatform.component.security.HasUserRole;
-import de.tum.ar.researchplatform.component.security.JwtBuilder;
-import de.tum.ar.researchplatform.service.auth.AuthServiceImpl;
+import de.tum.ar.researchplatform.exception.CustomNotFoundException;
 import de.tum.ar.researchplatform.service.user.UserServiceImpl;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.*;
@@ -15,12 +14,7 @@ import org.springframework.web.bind.annotation.*;
 @RequestMapping(value = "/api")
 public class AuthController {
     @Autowired
-    private JwtBuilder jwtBuilder;
-    @Autowired
     private UserServiceImpl userService;
-    @Autowired
-    private AuthServiceImpl loginService;
-
     /**
      * Endpoint to login
      * @return login response
@@ -36,8 +30,8 @@ public class AuthController {
      */
     @GetMapping(value = "/logout", produces = MediaType.APPLICATION_JSON_VALUE)
     @HasUserRole
-    public ResponseEntity<String> logout(@RequestHeader(value="userId" , required = true) String userId) {
-        userService.deleteById(userId);
+    public ResponseEntity<String> logout(@RequestHeader(value="userId" , required = true) String userId) throws CustomNotFoundException {
+        userService.deleteByTumId(userId);
         return new ResponseEntity<>("Success", HttpStatus.OK);
     }
 }

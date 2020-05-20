@@ -67,4 +67,10 @@ public interface UserService {
      * @return User object found
      */
     User findByTumId(String tumId) throws CustomNotFoundException;
+
+    /**
+     * Delete User object by TUM ID
+     * @param tumId
+     */
+    void deleteByTumId(String tumId) throws CustomNotFoundException;
 }

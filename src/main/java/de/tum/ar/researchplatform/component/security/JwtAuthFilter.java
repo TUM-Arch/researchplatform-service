@@ -1,11 +1,11 @@
 package de.tum.ar.researchplatform.component.security;
 
+import com.google.common.collect.Lists;
 import de.tum.ar.researchplatform.exception.CustomLoginException;
 import de.tum.ar.researchplatform.exception.CustomNotFoundException;
 import de.tum.ar.researchplatform.model.User;
 import de.tum.ar.researchplatform.service.auth.AuthServiceImpl;
 import de.tum.ar.researchplatform.service.user.UserServiceImpl;
-import de.tum.ar.researchplatform.util.Constants;
 import io.jsonwebtoken.*;
 import io.jsonwebtoken.security.SignatureException;
 import lombok.extern.slf4j.Slf4j;
@@ -26,9 +26,9 @@ import javax.servlet.ServletException;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Objects;
-import java.util.stream.Collectors;
 
 import static de.tum.ar.researchplatform.util.Constants.*;
 
@@ -61,29 +61,33 @@ public class JwtAuthFilter extends OncePerRequestFilter {
             WebApplicationContext webApplicationContext = WebApplicationContextUtils.getWebApplicationContext(servletContext);
             loginService = Objects.requireNonNull(webApplicationContext).getBean(AuthServiceImpl.class);
         }
-        String header = request.getHeader(Constants.TOKEN_HEADER);
-        if (StringUtils.isEmpty(header) || !header.startsWith(Constants.TOKEN_PREFIX)) {
+        String header = request.getHeader(TOKEN_HEADER);
+        if (StringUtils.isEmpty(header) || !header.startsWith(TOKEN_PREFIX)) {
             String requestURI = request.getRequestURI();
             String requestMethod = request.getMethod();
             if(requestMethod.equals("POST") && (requestURI.equals("/api/login/") || requestURI.equals("/api/login"))) {
                 JwtBuilder jwtBuilder = new JwtBuilder();
                 String userId = request.getHeader("userId");
                 String password = request.getHeader("password");
-                String sessionId = "session";
+                String sessionId = null;
+                String loginId = null;
                 String jwt = null;
                 User user = null;
                 Boolean loggedInAsAdmin = null;
                 try {
-                    // TODO: Attempt Login and remove temp login
-                    // MultiValueMap<String, String> cookies = loginService.attemptLogin(userId, password);
-                    loggedInAsAdmin = loginService.attemptTempLogin(userId, password);
-                    userService.findByTumId(userId);
+                     HashMap<String, String> cookies = loginService.attemptLogin(userId, password);
+                     if(!cookies.containsKey(COOKIE_STRING_SESSION))
+                         throw new CustomLoginException(LOGIN_FAILED_MSG);
+                    loggedInAsAdmin = Boolean.parseBoolean(cookies.get(ADMIN_HEADER));
+                    loginId = cookies.get(COOKIE_STRING_LOGIN);
+                    sessionId = cookies.get(COOKIE_STRING_SESSION);
                     if(loggedInAsAdmin) {
-                        jwt = jwtBuilder.buildJwtForAdmin(userId, sessionId);
+                        jwt = jwtBuilder.buildJwtForAdmin(userId, loginId, sessionId);
                     }
                     else {
-                        jwt = jwtBuilder.buildJwtForUser(userId, sessionId);
+                        jwt = jwtBuilder.buildJwtForUser(userId, loginId, sessionId);
                     }
+                    userService.findByTumId(userId);
                 } catch (CustomLoginException e) {
                     throw new AccessDeniedException(LOGIN_FAILED_MSG);
                 } catch (CustomNotFoundException e) {
@@ -118,19 +122,19 @@ public class JwtAuthFilter extends OncePerRequestFilter {
             Claims claims = Jwts.parser().setSigningKey(signingKey).parseClaimsJws(token.replace("Bearer ", "")).getBody();
             String userId = claims.getSubject();
 
-            List authorities = ((List<String>) claims.get("role"))
-                    .stream()
-                    .map(authority -> new SimpleGrantedAuthority(authority))
-                    .collect(Collectors.toList());
+            String role = (String) claims.get(TOKEN_CLAIM_ROLE);
+            SimpleGrantedAuthority authority = new SimpleGrantedAuthority(role);
+            List<SimpleGrantedAuthority> authorities = Lists.newArrayList(authority);
 
-            String sessionId = (String) claims.get("sessionId");
+            String sessionId = (String) claims.get(TOKEN_CLAIM_SESSIONID);
+            String loginId = (String) claims.get(TOKEN_CLAIM_LOGINID);
 
             User user = userService.findByTumId(userId);
+            String header = request.getHeader(USERID_HEADER);
             if (user != null && !StringUtils.isEmpty(sessionId)) {
                 anonymousAuthenticationToken = new AnonymousAuthenticationToken(userId, user, authorities);
-                if(requestMethod.equals("GET") && (requestURI.equals("/api/logout/") || requestURI.equals("/api/logout"))) {
-                    // TODO: Attempt Logout
-                    // MultiValueMap<String, String> cookies = loginService.attemptLogout(userId, sessionId);
+                if(!StringUtils.isEmpty(header) && (role.contains(ROLE_USER) || role.contains(ROLE_ADMIN)) && requestMethod.equals("GET") && (requestURI.equals("/api/logout/") || requestURI.equals("/api/logout"))) {
+                    loginService.attemptLogout(userId, loginId, sessionId);
                 }
             }
         } catch (ExpiredJwtException exception) {
@@ -144,7 +148,7 @@ public class JwtAuthFilter extends OncePerRequestFilter {
         } catch (IllegalArgumentException exception) {
             log.error("Request to parse empty or null JWT : {} failed : {}", token, exception.getMessage());
         } catch (CustomNotFoundException e) {
-            log.error(Constants.USER_NOT_FOUND_MSG);
+            log.error(USER_NOT_FOUND_MSG);
         }
         return anonymousAuthenticationToken;
     }

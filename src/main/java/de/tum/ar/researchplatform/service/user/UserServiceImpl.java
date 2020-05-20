@@ -80,4 +80,13 @@ public class UserServiceImpl implements UserService{
         }
         return user;
     }
+
+    @Override
+    public void deleteByTumId(String tumId) throws CustomNotFoundException {
+        User user = userRepository.findByTumId(tumId);
+        if(user == null) {
+            throw new CustomNotFoundException(USER_NOT_FOUND_MSG);
+        }
+        this.delete(user);
+    }
 }

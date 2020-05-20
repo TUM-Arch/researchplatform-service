@@ -20,6 +20,12 @@ public interface UserRepository extends MongoRepository<User,String> {
     public User findByTumId(String tumId);
 
     /**
+     * Delete User object by TUM ID
+     * @param tumId
+     */
+    public void deleteByTumId(String tumId);
+
+    /**
      * Find User object by name
      * @param name
      * @return User object
