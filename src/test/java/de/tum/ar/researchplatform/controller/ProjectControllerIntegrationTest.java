@@ -5,17 +5,14 @@ import de.tum.ar.researchplatform.model.Project;
 import de.tum.ar.researchplatform.model.request.ProjectsRequestObject;
 import de.tum.ar.researchplatform.service.project.ProjectService;
 import de.tum.ar.researchplatform.util.Constants;
-import io.restassured.RestAssured;
 import io.restassured.http.ContentType;
 import io.restassured.http.Method;
 import org.apache.http.HttpStatus;
 import org.junit.After;
-import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
-import org.springframework.boot.web.server.LocalServerPort;
 import org.springframework.test.context.junit4.SpringRunner;
 
 import java.util.ArrayList;
@@ -28,19 +25,15 @@ import static org.hamcrest.Matchers.*;
  */
 @RunWith(SpringRunner.class)
 @SpringBootTest(webEnvironment = SpringBootTest.WebEnvironment.RANDOM_PORT)
-public class ProjectControllerIntegrationTest {
-
-    @LocalServerPort
-    private int port;
+public class ProjectControllerIntegrationTest extends AbstractControllerIntegrationTest {
 
     private String endpoint = "/api/projects";
 
     @Autowired
     private ProjectService projectService;
 
-    @Before
-    public void setup() throws Exception {
-        RestAssured.port = port;
+    @Override
+    public void localSetup() {
         // Create two objects
         Project project1 = new Project();
         project1.setUserId("Abc");
@@ -58,7 +51,9 @@ public class ProjectControllerIntegrationTest {
 
     @Test
     public void testGET_OK() {
-        when()
+        given()
+                .header("Authorization", this.jwtAdmin)
+                .when()
                 .request(Method.GET, endpoint)
                 .then().assertThat()
                 .statusCode(HttpStatus.SC_OK);
@@ -66,7 +61,9 @@ public class ProjectControllerIntegrationTest {
 
     @Test
     public void testGET_NOT_FOUND() {
-        when()
+        given()
+                .header("Authorization", this.jwtAdmin)
+                .when()
                 .request(Method.GET, endpoint + "/non_existing_id")
                 .then()
                 .assertThat()
@@ -77,6 +74,7 @@ public class ProjectControllerIntegrationTest {
     public void testProjectsForUser_GETwithHeader_OK() {
         given()
                 .header("userId", "Abc")
+                .header("Authorization", this.jwtAdmin)
                 .when()
                 .request(Method.GET, endpoint + "/my")
                 .then()
@@ -92,6 +90,7 @@ public class ProjectControllerIntegrationTest {
         given()
                 .header("userId", "Xyz")
                 .header("status", "NOTSUBMITTED")
+                .header("Authorization", this.jwtAdmin)
                 .when()
                 .request(Method.GET, endpoint + "/my")
                 .then()
@@ -104,7 +103,9 @@ public class ProjectControllerIntegrationTest {
 
     @Test
     public void testDELETE_OK() {
-        when()
+        given()
+                .header("Authorization", this.jwtAdmin)
+                .when()
                 .request(Method.DELETE, endpoint)
                 .then()
                 .assertThat()
@@ -125,6 +126,8 @@ public class ProjectControllerIntegrationTest {
         with()
                 .body(projectsRequestObject)
                 .contentType(ContentType.JSON)
+                .given()
+                .header("Authorization", this.jwtAdmin)
                 .when()
                 .request(Method.POST, endpoint)
                 .then()

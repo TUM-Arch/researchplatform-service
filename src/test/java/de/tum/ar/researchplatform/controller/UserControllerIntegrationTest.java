@@ -3,17 +3,14 @@ package de.tum.ar.researchplatform.controller;
 import de.tum.ar.researchplatform.model.User;
 import de.tum.ar.researchplatform.model.request.UsersRequestObject;
 import de.tum.ar.researchplatform.service.user.UserService;
-import io.restassured.RestAssured;
 import io.restassured.http.ContentType;
 import io.restassured.http.Method;
 import org.apache.http.HttpStatus;
 import org.junit.After;
-import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
-import org.springframework.boot.web.server.LocalServerPort;
 import org.springframework.test.context.junit4.SpringRunner;
 
 import static io.restassured.RestAssured.*;
@@ -23,19 +20,15 @@ import static io.restassured.RestAssured.*;
  */
 @RunWith(SpringRunner.class)
 @SpringBootTest(webEnvironment = SpringBootTest.WebEnvironment.RANDOM_PORT)
-public class UserControllerIntegrationTest {
-
-    @LocalServerPort
-    private int port;
+public class UserControllerIntegrationTest extends AbstractControllerIntegrationTest {
 
     private String endpoint = "/api/users";
 
     @Autowired
     private UserService userService;
 
-    @Before
-    public void setup() throws Exception {
-        RestAssured.port = port;
+    @Override
+    public void localSetup() {
         // Create two objects
         User user1 = new User();
         user1.setTumId("1");
@@ -52,7 +45,9 @@ public class UserControllerIntegrationTest {
 
     @Test
     public void testGET_OK() {
-        when()
+        given()
+                .header("Authorization", this.jwtAdmin)
+                .when()
                 .request(Method.GET, endpoint)
                 .then()
                 .assertThat()
@@ -61,7 +56,9 @@ public class UserControllerIntegrationTest {
 
     @Test
     public void testGET_NOT_FOUND() {
-        when()
+        given()
+                .header("Authorization", this.jwtAdmin)
+                .when()
                 .request(Method.GET, endpoint + "/non_existing_id")
                 .then()
                 .assertThat()
@@ -70,7 +67,9 @@ public class UserControllerIntegrationTest {
 
     @Test
     public void testDELETE_OK() {
-        when()
+        given()
+                .header("Authorization", this.jwtAdmin)
+                .when()
                 .request(Method.DELETE, endpoint)
                 .then()
                 .assertThat()
@@ -87,6 +86,8 @@ public class UserControllerIntegrationTest {
         with()
                 .body(usersRequestObject)
                 .contentType(ContentType.JSON)
+                .given()
+                .header("Authorization", this.jwtAdmin)
                 .when()
                 .request(Method.POST, endpoint)
                 .then()
