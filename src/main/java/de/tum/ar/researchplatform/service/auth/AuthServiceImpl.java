@@ -1,6 +1,7 @@
 package de.tum.ar.researchplatform.service.auth;
 
 import com.google.common.collect.Lists;
+import de.tum.ar.researchplatform.util.Admins;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.*;
 import org.springframework.stereotype.Service;
@@ -20,7 +21,7 @@ import static de.tum.ar.researchplatform.util.Constants.*;
 @Service
 @Slf4j
 public class AuthServiceImpl implements AuthService {
-    private List<String> adminList = Lists.newArrayList("***REMOVED***", "***REMOVED***");
+    private List<String> adminList = Lists.newArrayList(Arrays.asList(Admins.admins));
 
     @Override
     public HashMap<String, String> attemptLogin(String userId, String password) {
