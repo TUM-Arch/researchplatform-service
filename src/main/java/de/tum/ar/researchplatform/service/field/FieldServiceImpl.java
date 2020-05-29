@@ -2,7 +2,9 @@ package de.tum.ar.researchplatform.service.field;
 
 import de.tum.ar.researchplatform.exception.CustomNotFoundException;
 import de.tum.ar.researchplatform.model.Field;
+import de.tum.ar.researchplatform.model.Project;
 import de.tum.ar.researchplatform.repository.FieldRepository;
+import de.tum.ar.researchplatform.service.project.ProjectService;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -20,6 +22,9 @@ public class FieldServiceImpl implements FieldService {
 
     @Autowired
     private FieldRepository fieldRepository;
+
+    @Autowired
+    private ProjectService projectService;
 
     @Override
     public List<Field> listAll() {
@@ -75,5 +80,16 @@ public class FieldServiceImpl implements FieldService {
     @Override
     public Field findByNameDe(String nameDe) {
         return fieldRepository.findByNameDe(nameDe);
+    }
+
+    @Override
+    public void addFieldToProjects(Field field) {
+        List<Project> projects = projectService.listAll();
+        for(Project project : projects) {
+            List<Field> fields = project.getFields();
+            fields.add(field);
+            project.setFields(fields);
+            projectService.saveOrUpdate(project);
+        }
     }
 }

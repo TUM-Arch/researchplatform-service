@@ -60,7 +60,9 @@ public class FieldController {
                 fieldDetails.getDescription(),
                 fieldDetails.isRequired(),
                 fieldDetails.getLength());
-        return fieldService.saveOrUpdate(field);
+        Field savedField = fieldService.saveOrUpdate(field);
+        fieldService.addFieldToProjects(savedField);
+        return savedField;
     }
 
     /**
@@ -78,7 +80,9 @@ public class FieldController {
         field.setDescription(fieldDetails.getDescription());
         field.setRequired(fieldDetails.isRequired());
         field.setLength(fieldDetails.getLength());
-        return fieldService.saveOrUpdate(field);
+        Field savedField = fieldService.saveOrUpdate(field);
+        fieldService.addFieldToProjects(savedField);
+        return savedField;
     }
 
     /**

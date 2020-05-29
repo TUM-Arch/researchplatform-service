@@ -67,4 +67,10 @@ public interface FieldService {
      * @return Field object
      */
     public Field findByNameDe(String nameDe);
+
+    /**
+     * Add the updated field to all projects
+     * @param field
+     */
+    public void addFieldToProjects(Field field);
 }
