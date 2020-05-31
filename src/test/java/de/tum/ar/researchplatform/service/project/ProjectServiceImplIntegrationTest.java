@@ -131,7 +131,7 @@ public class ProjectServiceImplIntegrationTest {
         Project submittedProject = projectService.advanceWorkflow(newProject.getId());
 
         // Reject to Rejected
-        Project rejectedProject = projectService.rejectWorkflow(submittedProject.getId());
+        Project rejectedProject = projectService.rejectWorkflow(submittedProject.getId(), "Rejection Text");
         assertThat(rejectedProject.getStatus()).isEqualTo(Constants.ProjectStatus.REJECTED);
     }
 }

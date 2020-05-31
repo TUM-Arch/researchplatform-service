@@ -37,6 +37,7 @@ public class Project {
     private List<String> tags;
     private List<Field> fields;
     private Constants.ProjectStatus status;
+    private String rejectionText;
 
     @Setter(AccessLevel.NONE)
     private Date createdAt;
@@ -53,6 +54,7 @@ public class Project {
         this.imageId = "";
         this.tags = new ArrayList<>();
         this.fields = new ArrayList<>();
+        this.rejectionText = "";
         Calendar calendar = Calendar.getInstance();
         calendar.setTime(this.createdAt);
         this.yearOfCreation = calendar.get(Calendar.YEAR);
@@ -68,6 +70,7 @@ public class Project {
         this.imageId = imageId;
         this.tags = tags;
         this.fields = fields;
+        this.rejectionText = "";
         Calendar calendar = Calendar.getInstance();
         calendar.setTime(this.createdAt);
         this.yearOfCreation = calendar.get(Calendar.YEAR);

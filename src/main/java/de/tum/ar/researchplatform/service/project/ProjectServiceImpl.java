@@ -114,9 +114,10 @@ public class ProjectServiceImpl implements ProjectService {
     }
 
     @Override
-    public Project rejectWorkflow(String id) throws CustomNotFoundException {
+    public Project rejectWorkflow(String id, String rejectionText) throws CustomNotFoundException {
         Project project = this.findById(id);
         project.setStatus(Constants.ProjectStatus.REJECTED);
+        project.setRejectionText(rejectionText);
         project = this.saveOrUpdate(project);
         return project;
     }
