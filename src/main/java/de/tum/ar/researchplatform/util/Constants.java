@@ -54,6 +54,7 @@ public final class Constants {
     public static final String FIELD_NOT_FOUND_MSG = "Field not found";
     public static final String IMAGE_NOT_FOUND_MSG = "Image not found";
     public static final String PROJECT_NOT_FOUND_MSG = "Project not found";
+    public static final String TAG_NOT_FOUND_MSG = "Tag not found";
     public static final String USER_NOT_FOUND_MSG = "User not found";
     public static final String LOGIN_FAILED_MSG = "Login failed";
 

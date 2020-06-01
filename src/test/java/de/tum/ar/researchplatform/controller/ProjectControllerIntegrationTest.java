@@ -2,6 +2,7 @@ package de.tum.ar.researchplatform.controller;
 
 import de.tum.ar.researchplatform.model.Field;
 import de.tum.ar.researchplatform.model.Project;
+import de.tum.ar.researchplatform.model.Tag;
 import de.tum.ar.researchplatform.model.request.ProjectsRequestObject;
 import de.tum.ar.researchplatform.service.project.ProjectService;
 import de.tum.ar.researchplatform.util.Constants;
@@ -120,7 +121,7 @@ public class ProjectControllerIntegrationTest extends AbstractControllerIntegrat
                 , "Description"
                 , "testImageId"
                 , "UserId"
-                , new ArrayList<String>()
+                , new ArrayList<Tag>()
                 , new ArrayList<Field>());
 
         with()

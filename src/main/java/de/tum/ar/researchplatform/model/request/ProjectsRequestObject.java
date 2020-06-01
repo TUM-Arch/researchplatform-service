@@ -1,6 +1,7 @@
 package de.tum.ar.researchplatform.model.request;
 
 import de.tum.ar.researchplatform.model.Field;
+import de.tum.ar.researchplatform.model.Tag;
 import lombok.*;
 
 import javax.validation.constraints.NotNull;
@@ -24,6 +25,6 @@ public class ProjectsRequestObject {
     private String description;
     private String imageId;
     private String userId;
-    private List<String> tags;
+    private List<Tag> tags;
     private List<Field> fields;
 }

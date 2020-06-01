@@ -34,7 +34,7 @@ public class Project {
 
     private String userId;
 
-    private List<String> tags;
+    private List<Tag> tags;
     private List<Field> fields;
     private Constants.ProjectStatus status;
     private String rejectionText;
@@ -60,7 +60,7 @@ public class Project {
         this.yearOfCreation = calendar.get(Calendar.YEAR);
     }
 
-    public Project(String userId, String name, String chairName, String description, String imageId, List<String> tags, List<Field> fields) {
+    public Project(String userId, String name, String chairName, String description, String imageId, List<Tag> tags, List<Field> fields) {
         this.createdAt = new Date();
         this.userId = userId;
         this.status = Constants.ProjectStatus.NOTSUBMITTED;
