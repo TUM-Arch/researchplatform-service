@@ -8,7 +8,7 @@ services:
     build:
       context: .
       dockerfile: Dockerfile
-    command: --spring.profiles.active=test
+    command: --spring.profiles.active=prod
     ports:
       - "5000:5000" # Forward the exposed port 5000 on the container to port 5000 on the host machine
     restart: always
