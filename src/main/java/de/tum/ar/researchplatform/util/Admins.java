@@ -17,7 +17,6 @@ public final class Admins {
      * Admin List: Please specify admin user ids based on comma separated values
      */
     public static final String[] admins = new String[]{
-            "***REMOVED***",
-            "***REMOVED***"
+            "ge79pan"
     };
 }
